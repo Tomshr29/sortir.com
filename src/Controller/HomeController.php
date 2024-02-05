@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -11,8 +12,6 @@ class HomeController
     public function index(): Response
     {
         echo 'Coucou !';
-        return new Response(
-            '<html lang="fr"><body><h1>Hello world!</h1></body></html>'
-        );
+        return $this->render('home.html.twig');
     }
 }
