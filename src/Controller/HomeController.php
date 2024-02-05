@@ -10,6 +10,7 @@ class HomeController
     #[Route('/')]
     public function index(): Response
     {
+        echo 'Coucou !';
         return new Response(
             '<html lang="fr"><body><h1>Hello world!</h1></body></html>'
         );
