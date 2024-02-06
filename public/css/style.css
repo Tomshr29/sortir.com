@@ -3,3 +3,13 @@
 *{
     font-family: 'Inter', sans-serif;
 }
+
+label{
+    display: block;
+}
+
+input,
+textarea,
+select{
+    margin-bottom: 1rem;
+}
