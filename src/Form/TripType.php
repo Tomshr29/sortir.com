@@ -42,7 +42,7 @@ class TripType extends AbstractType
             ->add('tripInfo', TextareaType::class)
             ->add('statut', ChoiceType::class, [
                 'choices' => [
-                    '---Choice a status---' => 'choice',
+                    '---Choose a status---' => 'choice',
                     'Created' => 'Created',
                     'Opened' => 'Opened',
                     'Closed' => 'Closed',
