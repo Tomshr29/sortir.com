@@ -7,16 +7,18 @@ New Trip
 
 
 {% block body %}
-    <div>
-        {{ form_start(tripForm) }}
+    <div class="newTrip">
+        <div class="formNewTrip">
+            {{ form_start(tripForm) }}
 
-        {{ form_widget(tripForm) }}
+            {{ form_widget(tripForm) }}
 
-        <button>Create a new trip</button>
+            <button>Create a new trip</button>
 
-        {{ form_end(tripForm) }}
+            {{ form_end(tripForm) }}
+        </div>
+        <div class="TODO nom form lieu">
 
-
-
+        </div>
     </div>
 {% endblock %}
