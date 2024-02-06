@@ -1,0 +1,8 @@
+<nav class="header-nav">
+    <ul>
+        <li><a href='{{ path('app_home_index') }}' title="Home">Home</a></li>
+        {% if app.user %}
+            <li><a href="{{ path('app_logout') }}" title="Logout">Logout ( {{ app.user.firstname }} )</a></li>
+        {% endif %}
+    </ul>
+</nav>
