@@ -1,13 +1,12 @@
 <?php
 /*
  *  TABLES A FAIRE :
- *      - user
- *      - participant
- *      - campus
- *      - sortie
- *      - état (créer ouvert annuler cloturer en-cours)
- *      - lieux
- *      - ville (de la sortie)
+ *      - participant (francois)
+ *      - campus (Tom)
+ *      - sortie (Kevin)
+ *      - état (Tom)
+ *      - lieux (Yo)
+ *      - ville (de la sortie) (Yo)
  *
  *
  */
