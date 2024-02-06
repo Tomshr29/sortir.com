@@ -9,10 +9,10 @@ use JetBrains\PhpStorm\NoReturn;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-#[Route('/', name: 'home_')]
+#[Route('/', name: 'main_')]
 class HomeController extends AbstractController
 {
-    #[NoReturn] #[Route('/', name: 'home')]
+    #[Route('/', name: 'home')]
     public function index(): Response
     {
         return $this->render('main/home.html.twig');
@@ -26,6 +26,7 @@ class HomeController extends AbstractController
         //return $this->render('');
     }
 
+    /*
     #[Route('/testhydratecity', name: 'testhydratecity')]
     public function testhydratecity(EntityManagerInterface $entityManager): Response
     {
@@ -45,7 +46,9 @@ class HomeController extends AbstractController
 
         return $this->render('event/city.html.twig');
     }
+    */
 
+    /*
     #[Route('/testhydrateplace', name: 'testhydrateplace')]
     public function testhydrateplace(EntityManagerInterface $entityManager): Response
     {
@@ -67,5 +70,6 @@ class HomeController extends AbstractController
 
         return $this->render('event/place.html.twig');
     }
+    */
 
 }
