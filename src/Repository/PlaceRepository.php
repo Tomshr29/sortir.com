@@ -22,24 +22,24 @@ class PlaceRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Lieu[] Returns an array of Lieu objects
+//     * @return Place[] Returns an array of Place objects
 //     */
 //    public function findByExampleField($value): array
 //    {
-//        return $this->createQueryBuilder('l')
-//            ->andWhere('l.exampleField = :val')
+//        return $this->createQueryBuilder('p')
+//            ->andWhere('p.exampleField = :val')
 //            ->setParameter('val', $value)
-//            ->orderBy('l.id', 'ASC')
+//            ->orderBy('p.id', 'ASC')
 //            ->setMaxResults(10)
 //            ->getQuery()
 //            ->getResult()
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Lieu
+//    public function findOneBySomeField($value): ?Place
 //    {
-//        return $this->createQueryBuilder('l')
-//            ->andWhere('l.exampleField = :val')
+//        return $this->createQueryBuilder('p')
+//            ->andWhere('p.exampleField = :val')
 //            ->setParameter('val', $value)
 //            ->getQuery()
 //            ->getOneOrNullResult()

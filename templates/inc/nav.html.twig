@@ -7,6 +7,7 @@
             <li><a href="{{ path('main_home') }}" title="Home">Home</a></li>
             <li><a href="{{ path('app_newTrip') }}" title="New Trip">New Trip</a> </li>
             <li><a href="{{ path('app_campus') }}" title="Campus">Campus</a> </li>
+            <li><a href="{{ path('app_list') }}" title="Liste des évênements">Liste des évênements</a> </li>
             {% if app.user %}
                 <li><a href="{{ path('profile_modification') }}" title="Profile">Profil</a></li>
                 <li><a href="{{ path('app_logout') }}" title="Logout">Logout ( {{ app.user.firstname }} )</a></li>
