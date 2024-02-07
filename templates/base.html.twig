@@ -18,14 +18,35 @@
     </head>
     <body>
     <header>
+        {% block header %}
         <div class="container">
             <div class="connect">
-                <a href="{{ path('app_register') }}" title="Register">Register</a>
-                <a href="{{ path('app_login') }}" title="Login">Login</a>
-            </div>
 
-            {% include('inc/nav.html.twig') %}
+            </div>
         </div>
+            <nav class="header-nav">
+                <div class="header-container">
+                    {% if app.user %}
+                        <a class ="header-logo" href="{{ path('app_listTrip') }}" title="List Trip"><img src="{{ asset('img/logo.png') }}" alt="Logo Symfony-projet"></a>
+                    {% else %}
+                        <a class ="header-logo" href="{{ path('main_home') }}" title="List Trip"><img src="{{ asset('img/logo.png') }}" alt="Logo Symfony-projet"></a>
+                    {% endif %}
+                    <ul>
+                        {% if not app.user %}
+                        <li><a href="{{ path('app_login') }}" title="Login">Login</a></li>
+                        <li><a href="{{ path('app_register') }}" title="Register">Register</a></li>
+                        {% endif %}
+                        {% if app.user %}
+                        <li><a href="{{ path('main_home') }}" title="Home">Home</a></li>
+                        <li><a href="{{ path('app_listTrip') }}" title="List Trip">List Trip</a> </li>
+                        <li><a href="{{ path('app_campus') }}" title="Campus">Campus</a> </li>
+                        <li><a href="{{ path('profile_modification') }}" title="Profile">Profil</a></li>
+                        <li><a href="{{ path('app_logout') }}" title="Logout">Logout ( {{ app.user.firstname }} )</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </nav>
+        {% endblock %}
     </header>
 
     <main>
