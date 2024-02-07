@@ -1,9 +1,7 @@
 <nav class="header-nav">
-    <div>
-        <a href="{{ path('main_home') }}" title="Home"><img src="{{ asset('img/logo.png') }}" alt="Logo Symfony-projet"></a>
-    </div>
-    <div style="display: flex; justify-content: flex-end; padding: 6px;">
-        <ul style="list-style: none; margin: 0; padding: 0; display: flex; gap: 10px;">
+    <div class="header-container">
+        <a class ="header-logo" href="{{ path('main_home') }}" title="Home"><img src="{{ asset('img/logo.png') }}" alt="Logo Symfony-projet"></a>
+        <ul>
             <li><a href="{{ path('main_home') }}" title="Home">Home</a></li>
             <li><a href="{{ path('app_listTrip') }}" title="List Trip">List Trip</a> </li>
             <li><a href="{{ path('app_campus') }}" title="Campus">Campus</a> </li>
