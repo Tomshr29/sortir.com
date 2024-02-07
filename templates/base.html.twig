@@ -34,11 +34,12 @@
         </div>
     </main>
 
-    <footer>
+
+    {% block footer %}
         <div class="container">
             <div>&copy;FKTY Sortie! {{ "now" | date("Y") }}</div>
         </div>
-    </footer>
+    {% endblock %}
 
     </body>
 </html>
