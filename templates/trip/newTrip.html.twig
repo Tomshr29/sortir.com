@@ -2,11 +2,13 @@
 
 
 {% block title %}
-New Trip
+New Trip | {{ parent() }}
 {% endblock %}
 
 
 {% block body %}
+    <h1>Créer une sortie</h1>
+
     <div class="newTrip">
         <div class="formNewTrip">
             {{ form_start(tripForm) }}

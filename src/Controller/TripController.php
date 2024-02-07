@@ -18,6 +18,13 @@ class TripController extends AbstractController
         ]);
     }
 
+    #[Route('/listTrip', name: 'app_listTrip')]
+    public function listTrip(): Response{
+        return $this->render('trip/listTrip.html.twig', [
+            'controller_name' => 'TripController',
+        ]);
+    }
+
     #[Route('/newTrip', name: 'app_newTrip')]
     public function newTrip(): Response
     {
