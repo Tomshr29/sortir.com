@@ -4,7 +4,7 @@
         <meta name="viewport"
               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Symfony-Projet{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
         <link rel="icon" href="{{ asset('img/favicon.png') }}">
 
@@ -18,14 +18,35 @@
     </head>
     <body>
     <header>
+        {% block header %}
         <div class="container">
             <div class="connect">
-                <a href="{{ path('app_register') }}" title="Register">Register</a>
-                <a href="{{ path('app_login') }}" title="Login">Login</a>
-            </div>
 
-            {% include('inc/nav.html.twig') %}
+            </div>
         </div>
+            <nav class="header-nav">
+                <div class="header-container">
+                    {% if app.user %}
+                        <a class ="header-logo" href="{{ path('app_listTrip') }}" title="List Trip"><img src="{{ asset('img/logo.png') }}" alt="Logo Symfony-projet"></a>
+                    {% else %}
+                        <a class ="header-logo" href="{{ path('main_home') }}" title="List Trip"><img src="{{ asset('img/logo.png') }}" alt="Logo Symfony-projet"></a>
+                    {% endif %}
+                    <ul>
+                        {% if not app.user %}
+                        <li><a href="{{ path('app_login') }}" title="Login">Login</a></li>
+                        <li><a href="{{ path('app_register') }}" title="Register">Register</a></li>
+                        {% endif %}
+                        {% if app.user %}
+                        <li><a href="{{ path('main_home') }}" title="Home">Home</a></li>
+                        <li><a href="{{ path('app_listTrip') }}" title="List Trip">List Trip</a> </li>
+                        <li><a href="{{ path('app_campus') }}" title="Campus">Campus</a> </li>
+                        <li><a href="{{ path('profile_modification') }}" title="Profile">Profil</a></li>
+                        <li><a href="{{ path('app_logout') }}" title="Logout">Logout ( {{ app.user.firstname }} )</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </nav>
+        {% endblock %}
     </header>
 
     <main>
@@ -34,11 +55,12 @@
         </div>
     </main>
 
-    <footer>
+
+    {% block footer %}
         <div class="container">
             <div>&copy;FKTY Sortie! {{ "now" | date("Y") }}</div>
         </div>
-    </footer>
+    {% endblock %}
 
     </body>
 </html>
