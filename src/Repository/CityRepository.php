@@ -22,24 +22,24 @@ class CityRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Ville[] Returns an array of Ville objects
+//     * @return City[] Returns an array of City objects
 //     */
 //    public function findByExampleField($value): array
 //    {
-//        return $this->createQueryBuilder('v')
-//            ->andWhere('v.exampleField = :val')
+//        return $this->createQueryBuilder('c')
+//            ->andWhere('c.exampleField = :val')
 //            ->setParameter('val', $value)
-//            ->orderBy('v.id', 'ASC')
+//            ->orderBy('c.id', 'ASC')
 //            ->setMaxResults(10)
 //            ->getQuery()
 //            ->getResult()
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Ville
+//    public function findOneBySomeField($value): ?City
 //    {
-//        return $this->createQueryBuilder('v')
-//            ->andWhere('v.exampleField = :val')
+//        return $this->createQueryBuilder('c')
+//            ->andWhere('c.exampleField = :val')
 //            ->setParameter('val', $value)
 //            ->getQuery()
 //            ->getOneOrNullResult()
