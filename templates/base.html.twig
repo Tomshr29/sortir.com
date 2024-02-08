@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr-FR">
     <head>
         <meta name="viewport"
               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -39,15 +39,23 @@
                         {% if app.user %}
                         <li><a href="{{ path('main_home') }}" title="Home">Home</a></li>
                         <li><a href="{{ path('app_listTrip') }}" title="List Trip">List Trip</a> </li>
-                        <li><a href="{{ path('app_campus') }}" title="Campus">Campus</a> </li>
-                        <li><a href="{{ path('profile_modification') }}" title="Profile">Profil</a></li>
-                        <li><a href="{{ path('app_logout') }}" title="Logout">Logout ( {{ app.user.firstname }} )</a></li>
+                        <li><a href="{{ path('app_campus') }}" title="Campus">Campus BUG</a> </li>
+                        <li><a href="{{ path('user_profil', {'id' : app.user.id}) }}" title="Profil">Mon profil</a></li>
+                        <li><a href="{{ path('app_logout') }}" title="Se déconnecter">Se déconnecter</a></li>
                         {% endif %}
                     </ul>
                 </div>
             </nav>
         {% endblock %}
     </header>
+
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
 
     <main>
         <div class="container">
