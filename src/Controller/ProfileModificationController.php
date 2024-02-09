@@ -37,6 +37,14 @@ class ProfileModificationController extends AbstractController
        $form->handleRequest($request);
 
        if($form->isSubmitted() && $form->isValid()){
+            // Check if username is already existe
+           $existingUser = $entityManager->getRepository(User::class)->findOneBy(['username' => $user->getUsername()]);
+
+           if ($existingUser) {
+               $this->addFlash('error', 'Ce Pseudo existe déjà. Veuillez en choisir un autre.');
+               return $this->redirectToRoute('user_profil' , ['id' => $id]);
+           }
+
            $user = $form->getData();
            $entityManager->persist($user);
            $entityManager->flush();
