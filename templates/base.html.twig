@@ -27,11 +27,16 @@
         </div>
             <nav class="header-nav">
                 <div class="header-container">
-                    {% if app.user %}
-                        <a class ="header-logo" href="{{ path('app_listTrip') }}" title="List Trip"><img src="{{ asset('img/logo.png') }}" alt="Logo Symfony-projet"></a>
-                    {% else %}
-                        <a class ="header-logo" href="{{ path('app_login') }}" title="List Trip"><img src="{{ asset('img/logo.png') }}" alt="Logo Symfony-projet"></a>
-                    {% endif %}
+                    <div>
+                        <img src="{{ asset('img/logo_eni.png')  }}" alt="logo-eni">
+                        {% if app.user %}
+                            <a class ="header-logo" href="{{ path('app_listTrip') }}" title="List Trip"><img src="{{ asset('img/logo.png') }}" alt="Logo Symfony-projet"></a>
+                        {% else %}
+                            <a class ="header-logo" href="{{ path('app_login') }}" title="List Trip"><img src="{{ asset('img/logo.png') }}" alt="Logo Symfony-projet"></a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div>
                     <ul>
                         {% if not app.user %}
                         <li><a href="{{ path('app_login') }}" title="Login">Login</a></li>
@@ -41,7 +46,7 @@
                         <li><a href="{{ path('main_home') }}" title="Home">Home</a></li>
                         <li><a href="{{ path('app_listTrip') }}" title="List Trip">List Trip</a> </li>
                         <li><a href="{{ path('city_list') }}" title="Liste des villes">Liste des villes</a> </li>
-                        <li><a href="{{ path('app_campus') }}" title="Campus">Campus BUG</a> </li>
+                        <li><a href="{{ path('app_campus') }}" title="Campus">Campus</a> </li>
                         <li><a href="{{ path('user_profil', {'id' : app.user.id}) }}" title="Profil">Mon profil</a></li>
                         <li><a href="{{ path('app_logout') }}" title="Se déconnecter">Se déconnecter</a></li>
                         {% endif %}
@@ -50,22 +55,22 @@
             </nav>
         {% endblock %}
     </header>
-
+    <div class="flashContainer">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="flash flash-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
     <main>
 
         <div class="container">
             {% block body %}{% endblock %}
         </div>
 
-        <div class="flashContainer">
-            {% for label, messages in app.flashes %}
-                {% for message in messages %}
-                    <div class="flash flash-{{ label }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endfor %}
-        </div>
+
 
     </main>
 
