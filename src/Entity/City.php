@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\CityRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\UX\Turbo\Attribute\Broadcast;
 
 #[ORM\Entity(repositoryClass: CityRepository::class)]
-#[Broadcast]
+//#[Broadcast]
 class City
 {
     #[ORM\Id]
@@ -15,9 +17,13 @@ class City
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Veuillez fournir le nom d'une ville !")]
+    #[Assert\Length(max:255)]
     private ?string $name = null;
 
     #[ORM\Column(length: 5)]
+    #[Assert\NotBlank(message: "Veuillez fournir un code postal valide !")]
+    #[Assert\Length(max:5)]
     private ?string $postalCode = null;
 
     public function getId(): ?int

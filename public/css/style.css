@@ -16,17 +16,17 @@ body {
     margin: auto;
     padding: 0 10px;
 }
-.container .profil{
+.container .profil {
     display: block;
 
 }
 
-.header-nav{
+.header-nav {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.header-container{
+.header-container {
     display: inline-flex;
     justify-content: center;
     align-items: flex-end;
@@ -54,7 +54,7 @@ body {
     align-self: flex-end;
 }
 
-.connect{
+.connect {
     text-align: right}
 
 main {
@@ -71,21 +71,66 @@ footer {
     text-align: center;
 }
 
-label{
+label {
     display: block;
+    padding-top: 15px;
+    padding-bottom: 7px;
 }
 
 input,
 textarea,
-select{
-    margin-bottom: 1rem;
+select {
+    /*margin-bottom: 1rem;*/ /* !!! Empêche le centrage vertical d'éléments de formulaire dans des lignes de tableau telles que dans la page list.html.twig !!!*/
     box-sizing: border-box;
-    width: 50%;
+    width: 100%;
 }
 
+.button-list-add {
+    margin: 0 auto; /* Centrage horizontal */
+}
 
-
-button{
+button {
+    margin-top: 20px;
+    margin-bottom: 10px;
     padding: 0.2rem 0.7rem;
     font-family: inherit;
 }
+
+h2 {
+    margin-top: 50px;
+    margin-bottom: 20px;
+    color: black;
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+/*.formContainer { }*/
+
+.cityForm {
+    margin: 0 auto; /* Centrage horizontal */
+    width: 400px; /* Largeur du formulaire */
+    padding: 15px;
+    border-radius: 15px;
+    justify-content: center;
+    background: #e3e3e3;
+}
+
+.flashContainer {
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centrage vertical */
+}
+
+.flash {
+    padding: 15px;
+    font-weight: normal;
+    font-size: 1rem;
+    margin: 1rem 0;
+    border-radius: 15px;
+    width: 150px;
+    text-align: center;
+}
+
+.flash-success {color: #fff;}

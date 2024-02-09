@@ -40,7 +40,7 @@ class TripController extends AbstractController
 
     }
 
-    #[Route('/list', name: 'app_list')]
+    #[Route('/listTrip', name: 'app_list')]
     public function list(TripRepository $tripRepository): Response
     {
         $trips = $tripRepository->findAll();

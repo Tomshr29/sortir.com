@@ -4,9 +4,10 @@ namespace App\Entity;
 
 use App\Repository\PlaceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\UX\Turbo\Attribute\Broadcast;
 
 #[ORM\Entity(repositoryClass: PlaceRepository::class)]
-#[Broadcast]
+//#[Broadcast]
 class Place
 {
     #[ORM\Id]

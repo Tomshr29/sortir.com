@@ -10,6 +10,7 @@
 
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/tableau.css') }}">
         {% endblock %}
 
         {% block javascripts %}
@@ -39,6 +40,7 @@
                         {% if app.user %}
                         <li><a href="{{ path('main_home') }}" title="Home">Home</a></li>
                         <li><a href="{{ path('app_listTrip') }}" title="List Trip">List Trip</a> </li>
+                        <li><a href="{{ path('city_list') }}" title="Liste des villes">Liste des villes</a> </li>
                         <li><a href="{{ path('app_campus') }}" title="Campus">Campus BUG</a> </li>
                         <li><a href="{{ path('user_profil', {'id' : app.user.id}) }}" title="Profil">Mon profil</a></li>
                         <li><a href="{{ path('app_logout') }}" title="Se déconnecter">Se déconnecter</a></li>
@@ -49,20 +51,23 @@
         {% endblock %}
     </header>
 
-    {% for label, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="flash-{{ label }}">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endfor %}
-
     <main>
+
         <div class="container">
             {% block body %}{% endblock %}
         </div>
-    </main>
 
+        <div class="flashContainer">
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="flash flash-{{ label }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+    </main>
 
     {% block footer %}
         <div class="container">
