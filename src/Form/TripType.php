@@ -18,7 +18,6 @@ class TripType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('idParticipant')
             ->add('name')
             ->add('dateTimeStart')
             /*->add('duration', DateIntervalType::class, [

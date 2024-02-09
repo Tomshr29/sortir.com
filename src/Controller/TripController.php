@@ -29,22 +29,22 @@ class TripController extends AbstractController
         $searchData = new SearchData();
         $form = $this->createForm(SearchType::class, $searchData);
 
+        $trips = $tripRepository->findAll();
+
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+
             $searchData->page = $request->query->getInt('page', 1);
-            $trip = $tripRepository->findBySearch($searchData);
+            $trips = $tripRepository->findBySearch($searchData);
 
             return $this->render('trip/listTrip.html.twig', [
                 'form' =>$form->createView(),
-                'trip' => $trip
+                'trips' => $trips
             ]);
         }
-
-
-
         return $this->render('trip/listTrip.html.twig', [
             'form' => $form->createView(),
-            'controller_name' => 'TripController',
+            'trips' => $trips
         ]);
     }
 
