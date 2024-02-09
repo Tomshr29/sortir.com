@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Campus;
 use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -133,6 +135,10 @@ class RegistrationFormType extends AbstractType
                         'minMessage' => 'Votre mot de passe doit contenir au minimum {{ limit }} caractères',
                         'max' => 4096]),
                 ],
+            ])
+            ->add('campus', EntityType::class, [
+                'class' => Campus::class,
+                'choice_label' => 'name',
             ])
         ;
     }

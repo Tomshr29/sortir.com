@@ -6,6 +6,7 @@
     <div class="container">
         <h1>{{ app.user.username }}</h1>
         <div class="profil">
+            <p>Campus : {{ app.user.campus.name }}</p>
             {{ form_start(form_edit_profile)}}
             {{ form_widget(form_edit_profile) }}
 
