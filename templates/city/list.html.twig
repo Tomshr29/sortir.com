@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une ville | {{ parent() }}{% endblock %}
+
+{% block body %}
+
+    <h2>Gérer les villes</h2>
+
+    <section class="city-list">
+        <table>
+            <thead>
+            <tr>
+                <th>Ville</th>
+                <th>Code Postal</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for city in citys %}
+                <tr>
+                    <td>{{ city.name }}</td>
+                    <td>{{ city.postalCode }}</td>
+                    <td>
+                        <a href="#">Modifier</a>
+                        <a href="#" title="Supprimer">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            <tr>
+                <td class="city-list">
+                    {{ form_start(cityForm) }}
+                    {{ form_widget(cityForm.name) }}
+                </td>
+                <td class="city-list">
+                    {{ form_widget(cityForm.postalCode) }}
+                </td>
+                <td class="city-list-add">
+                    <div class="button-list-add"><button type="submit">Ajouter</button></div>
+                    {{ form_end(cityForm) }}
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </section>
+
+{% endblock %}

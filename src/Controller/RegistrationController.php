@@ -24,6 +24,13 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Check if username is already existe
+            $existingUser = $entityManager->getRepository(User::class)->findOneBy(['username' => $user->getUsername()]);
+
+            if ($existingUser) {
+                $this->addFlash('error', 'Ce Pseudo existe déjà. Veuillez en choisir un autre.');
+                return $this->redirectToRoute('app_register');
+            }
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
@@ -32,11 +39,16 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            $this->addFlash(
+                'success',
+                'Le compte a bien été créé!'
+            );
+
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email
 
-            return $this->redirectToRoute('main_home');
+            return $this->redirectToRoute('app_register');
         }
 
         return $this->render('registration/register.html.twig', [

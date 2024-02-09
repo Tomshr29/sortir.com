@@ -4,10 +4,13 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
+use Symfony\Component\Validator\Constraints as Assert;
 
 class ProfileModificationType extends AbstractType
 {
@@ -15,23 +18,81 @@ class ProfileModificationType extends AbstractType
     {
         $user = $options['data'] ?? null;
         $builder
+            ->add('email', EmailType::class, [
+                'attr' =>[
+                    'class' => 'form-control',
+                    'minlength' => '2',
+                    'maxlenght' => '180',
+                ],
+                'label' => 'Email :',
+                'label_attr' => [
+                    'class' => 'form_label'
+                ],
+                'constraints'=>[
+                    new Assert\NotBlank(),
+                    new Assert\Email(),
+                    new Assert\Length(['min' => 2, 'max' => 180]),
+                ]
+            ])
             ->add('username', TextType::class, [
-                'label' =>'Pseudo'
+                'attr' =>[
+                    'class' => 'form-control',
+                    'minlength' => '2',
+                    'maxlenght' => '50',
+                ],
+                'label' => 'Pseudo :',
+                'label_attr' => [
+                    'class' => 'form_label'
+                ],
+                'constraints'=>[
+                    new Assert\NotBlank(),
+                    new Assert\Length(['min' => 2, 'max' => 50]),
+                ]
             ])
             ->add('firstname', TextType::class, [
-                'label' =>'Prénom'
+                'attr' =>[
+                    'class' => 'form-control',
+                    'minlength' => '2',
+                    'maxlenght' => '50',
+                ],
+                'label' => 'Prénom :',
+                'label_attr' => [
+                    'class' => 'form_label'
+                ],
+                'constraints'=>[
+                    new Assert\NotBlank(),
+                    new Assert\Length(['min' => 2, 'max' => 50]),
+                ]
             ])
             ->add('lastname', TextType::class, [
-                'label' =>'Nom'
+                'attr' =>[
+                    'class' => 'form-control',
+                    'minlength' => '2',
+                    'maxlenght' => '50',
+                ],
+                'label' => 'Nom :',
+                'label_attr' => [
+                    'class' => 'form_label'
+                ],
+                'constraints'=>[
+                    new Assert\NotBlank(),
+                    new Assert\Length(['min' => 2, 'max' => 50]),
+                ]
             ])
             ->add('phoneNumber', TextType::class, [
-                'label' =>'Téléphone'
-            ])
-            ->add('email')
-            ->add('password',  PasswordType::class, [
-                'label' => 'Mot de passe',
-                'required' => false,
-                'data' => $user ? null : '',
+                'attr' =>[
+                    'class' => 'form-control',
+                    'minlength' => '10',
+                    'maxlenght' => '15',
+                ],
+                'label' => 'Téléphone :',
+                'label_attr' => [
+                    'class' => 'form_label'
+                ],
+                'constraints'=>[
+                    new Assert\NotBlank(),
+                    new Assert\Length(['min' => 10, 'max' => 15]),
+                ]
             ])
         ;
     }

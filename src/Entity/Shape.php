@@ -8,32 +8,17 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ShapeRepository::class)]
 class Shape
 {
+    #[ORM\Column(type: 'integer')]
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
-    #[ORM\Column]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $idEtat = null;
 
     #[ORM\Column(length: 255)]
     private ?string $wording = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     public function getIdEtat(): ?int
     {
         return $this->idEtat;
-    }
-
-    public function setIdEtat(int $idEtat): static
-    {
-        $this->idEtat = $idEtat;
-
-        return $this;
     }
 
     public function getWording(): ?string
