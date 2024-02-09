@@ -123,14 +123,8 @@ h2 {
     align-items: center; /* Centrage vertical */
 }
 
-.flash {
-    padding: 15px;
-    font-weight: normal;
-    font-size: 1rem;
-    margin: 1rem 0;
-    border-radius: 15px;
-    width: 150px;
-    text-align: center;
-}
-
-.flash-success {color: #fff;}
+/*.flash-success {color: #fff;}
+ */
+.flash-success {background-color: lightgreen}
+.flash-warning {background-color: lightpink}
+.flash-error {background-color: tomato}
