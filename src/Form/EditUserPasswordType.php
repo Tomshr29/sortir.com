@@ -14,27 +14,12 @@ class EditUserPasswordType extends AbstractType{
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('Password', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'first_options' => [
-                    'attr'=> [
-                        'class' => 'form_control'
-                    ],
-                    'label' => 'Ancien mot de passe',
-                    'label_attr' => [
-                        'class' => 'form_label'
-                    ]
-                ],
-                'second_options' => [
-                    'attr'=> [
-                        'class' => 'form_control'
-                    ],
-                    'label' => 'Confirmation de l\'ancien mot de passe'
-                ],
+            ->add('Password', PasswordType::class,[
+                'attr' => ['class'=> 'form-control'],
+                'label'=> 'Ancien mot de passe',
                 'label_attr' => [
                     'class' => 'form_label'
-                ],
-                'invalid_message' => 'Les mots de passe de correspondent pas',
+                    ],
                 'constraints'=>[
                     new Assert\NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
                     new Assert\Length([
@@ -43,12 +28,27 @@ class EditUserPasswordType extends AbstractType{
                         'max' => 4096]),
                 ],
             ])
-            ->add('newPassword', PasswordType::class,[
-                'attr' => ['class'=> 'form-control'],
-                'label'=> 'Nouveau mot de passe',
+            ->add('newPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'first_options' => [
+                    'attr'=> [
+                        'class' => 'form_control'
+                    ],
+                    'label' => 'Nouveau mot de passe',
+                    'label_attr' => [
+                        'class' => 'form_label'
+                    ]
+                ],
+                'second_options' => [
+                    'attr'=> [
+                        'class' => 'form_control'
+                    ],
+                    'label' => 'Confirmation du nouveau mot de passe'
+                ],
                 'label_attr' => [
                     'class' => 'form_label'
-                    ],
+                ],
+                'invalid_message' => 'Les mots de passe de correspondent pas',
                 'constraints'=>[
                     new Assert\NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
                     new Assert\Length([
