@@ -19,7 +19,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProfileModificationController extends AbstractController
 {
     #[Route('/profil/{id}', name: 'profil')]
-    public function modifie(int $id,UserRepository $userRepository,
+    public function view(int $id,UserRepository $userRepository,
+                            Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $user = $userRepository->find($id);
+
+        return $this->render('profile/profile.html.twig', [
+            'user' => $user
+        ]);
+    }
+    #[Route('/profil/edit/{id}', name: 'edit')]
+    public function edit(int $id,UserRepository $userRepository,
                             Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = $userRepository->find($id);
@@ -34,29 +44,29 @@ class ProfileModificationController extends AbstractController
 
         $form = $this->createForm(ProfileModificationType::class, $user);
 
-       $form->handleRequest($request);
+        $form->handleRequest($request);
 
-       if($form->isSubmitted() && $form->isValid()){
+        if($form->isSubmitted() && $form->isValid()){
             // Check if username is already existe
-           $existingUser = $entityManager->getRepository(User::class)->findOneBy(['username' => $user->getUsername()]);
+            $existingUser = $entityManager->getRepository(User::class)->findOneBy(['username' => $user->getUsername()]);
 
-           if ($existingUser) {
-               $this->addFlash('error', 'Ce Pseudo existe déjà. Veuillez en choisir un autre.');
-               return $this->redirectToRoute('user_profil' , ['id' => $id]);
-           }
+            if ($existingUser) {
+                $this->addFlash('error', 'Ce Pseudo existe déjà. Veuillez en choisir un autre.');
+                return $this->redirectToRoute('user_profil' , ['id' => $id]);
+            }
 
-           $user = $form->getData();
-           $entityManager->persist($user);
-           $entityManager->flush();
+            $user = $form->getData();
+            $entityManager->persist($user);
+            $entityManager->flush();
 
-           $this->addFlash(
-               'success',
-               'Les informations de votre compte ont bien été modifiées'
-           );
-           return $this->redirectToRoute('user_profil' , ['id' => $id]);
+            $this->addFlash(
+                'success',
+                'Les informations de votre compte ont bien été modifiées'
+            );
+            return $this->redirectToRoute('user_profil' , ['id' => $id]);
 
-       }
-        return $this->render('profile/profile.html.twig', [
+        }
+        return $this->render('profile/edit_profile.html.twig', [
             'form_edit_profile' => $form->createView()
         ]);
     }

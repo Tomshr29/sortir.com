@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Mon profil{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>{{ app.user.username }}</h1>
+        <div class="profil">
+            <p>Campus : {{ app.user.campus.name }}</p>
+            {{ form_start(form_edit_profile)}}
+            {{ form_widget(form_edit_profile) }}
+
+            <button type="submit" class="button user_btn">Modifier</button>
+            <a href="{{ path('user_profil', { 'id' : app.user.id }) }}" title="Annuler"><button class="button user_btn">Annuler</button></a>
+            {{ form_end(form_edit_profile) }}
+        </div>
+    </div>
+{% endblock %}
