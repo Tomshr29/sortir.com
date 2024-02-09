@@ -18,13 +18,9 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
-        //met en dur le campus avec id=1 pour se créer son user TODO à supprimer quand la liste des campus sera effective
-        //$campus = $entityManager->getRepository(Campus::class)->find(1);
 
         $user = new User();
         $user->setAdministrator(false);
-        //TODO voir traitement du campus
-        //$user->setCampus($campus);
         $user->setActive(true);
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
