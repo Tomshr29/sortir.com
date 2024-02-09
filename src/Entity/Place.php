@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PlaceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
 
@@ -26,6 +28,18 @@ class Place
 
     #[ORM\Column(nullable: true)]
     private ?float $longitude = null;
+
+    #[ORM\ManyToOne(inversedBy: 'place')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?City $city = null;
+
+    #[ORM\OneToMany(targetEntity: Trip::class, mappedBy: 'place')]
+    private Collection $trip;
+
+    public function __construct()
+    {
+        $this->trip = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -76,6 +90,48 @@ class Place
     public function setLongitude(?float $longitude): static
     {
         $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): static
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Trip>
+     */
+    public function getTrip(): Collection
+    {
+        return $this->trip;
+    }
+
+    public function addTrip(Trip $trip): static
+    {
+        if (!$this->trip->contains($trip)) {
+            $this->trip->add($trip);
+            $trip->setPlace($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrip(Trip $trip): static
+    {
+        if ($this->trip->removeElement($trip)) {
+            // set the owning side to null (unless already changed)
+            if ($trip->getPlace() === $this) {
+                $trip->setPlace(null);
+            }
+        }
 
         return $this;
     }

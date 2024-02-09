@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -46,6 +48,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 50, unique: true)]
     private ?string $username = null;
+
+    #[ORM\ManyToOne(inversedBy: 'user')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Campus $campus = null;
+
+    #[ORM\OneToMany(targetEntity: Trip::class, mappedBy: 'organizer')]
+    private Collection $trip;
+
+    #[ORM\ManyToMany(targetEntity: Trip::class, mappedBy: 'participant')]
+    private Collection $trips;
+
+    public function __construct()
+    {
+        $this->trip = new ArrayCollection();
+        $this->trips = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -187,5 +205,55 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->username = $username;
 
         return $this;
+    }
+
+    public function getCampus(): ?Campus
+    {
+        return $this->campus;
+    }
+
+    public function setCampus(?Campus $campus): static
+    {
+        $this->campus = $campus;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Trip>
+     */
+    public function getTrip(): Collection
+    {
+        return $this->trip;
+    }
+
+    public function addTrip(Trip $trip): static
+    {
+        if (!$this->trip->contains($trip)) {
+            $this->trip->add($trip);
+            $trip->setOrganizer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrip(Trip $trip): static
+    {
+        if ($this->trip->removeElement($trip)) {
+            // set the owning side to null (unless already changed)
+            if ($trip->getOrganizer() === $this) {
+                $trip->setOrganizer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Trip>
+     */
+    public function getTrips(): Collection
+    {
+        return $this->trips;
     }
 }
