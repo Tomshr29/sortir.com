@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Trip;
+use App\Model\SearchData;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -45,4 +46,27 @@ class TripRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findBySearch(SearchData $searchData): PaginationInterface
+    {
+       $data = $this->createQueryBuilder('p')
+           ->where('p.state LIKE :state')
+           ->setParameter('state', '%STATE PUBLISHED%')
+           ->addOrderBy('p.createdAt', 'DESC');
+
+       if(!empty($searchData->query)){
+           $data = $data
+               ->andWhere('p.title LIKE :query')
+               ->setParameter('query', "%{$searchData->query}%");
+       }
+
+       $data = $data
+           ->getQuery()
+           ->getResult();
+
+       $trip = $this->paginatorInterface->paginate($data, $searchData->page, 9);
+
+       return $trip;
+    }
 }
+

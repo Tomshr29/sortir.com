@@ -7,5 +7,29 @@
 {% block body %}
     <h1>Liste des sorties</h1>
 
+    <p>Filtrer les sorties</p>
+    <p>Campus, a remplacer par la liste de choix des campus</p>
+    <p>Le nom de la sortie contien : {% include "searchData.html.twig"%}</p>
+
+    <h2>Liste des sorties</h2>
+    <nav>
+        <ul>
+            <li>Nom de la sortie &ensp;</li>
+            <li>Date de la sortie &ensp;</li>
+            <li>Clôture</li>
+            <li>Inscrits/places</li>
+            <li>Etat</li>
+            <li>Inscrit</li>
+            <Li>Actions</Li>
+        </ul>
+    </nav>
+
+    <div>
+        <p>Test</p>
+    </div>
+
+
+
+
     <a href="{{ path('app_newTrip') }}" title="New Trip"><button>Créer une sortie</button></a>
 {% endblock %}
