@@ -5,10 +5,9 @@ namespace App\Controller;
 use App\Entity\Trip;
 use App\Form\TripType;
 use App\Repository\TripRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 
 class TripController extends AbstractController
@@ -35,7 +34,7 @@ class TripController extends AbstractController
         $tripForm = $this->createForm(TripType::class, $trip);
 
         return $this->render('trip/newTrip.html.twig', [
-            'tripForm' => $tripForm->createView()
+            'tripForm' => $tripForm
         ]);
 
     }
@@ -51,32 +50,6 @@ class TripController extends AbstractController
             'trips' => $trips
         ]);
     }
-
-    /*
-    #[Route('/testhydratecity', name: 'testhydratecity')]
-    public function testhydratecity(EntityManagerInterface $entityManager): Response
-    {
-        #Création d'une instance de l'entité Ville
-        $city = new city();
-
-         // hydrate toutes les propriétés
-        $city->setName('Rennes');
-        $city->setpostalCode('35000');
-
-        // hydrate toutes les propriétés
-        $city->setName('Nantes');
-        $city->setpostalCode('44000');
-
-        dump($city);
-
-        $entityManager->persist($city);
-        $entityManager->flush();
-
-        //$entityManager = $this->getDoctrine()->getManager();
-
-        return $this->render('event/city.html.twig');
-    }
-    */
 
     /*
      #[Route('/testhydrateplace', name: 'testhydrateplace')]

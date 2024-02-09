@@ -7,8 +7,6 @@ use App\Form\CityCreationFormType;
 use App\Repository\CityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,7 +50,6 @@ class CityController extends AbstractController
         ]);
     }
 
-
     #[Route('/create', name: 'create')]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -75,4 +72,31 @@ class CityController extends AbstractController
             'cityForm' => $cityForm->createView()
         ]);
     }
+
+/*
+#[Route('/testhydratecity', name: 'testhydratecity')]
+public function testhydratecity(EntityManagerInterface $entityManager): Response
+{
+    #Création d'une instance de l'entité Ville
+    $city = new city();
+
+     // hydrate toutes les propriétés
+    $city->setName('Rennes');
+    $city->setpostalCode('35000');
+
+    // hydrate toutes les propriétés
+    $city->setName('Nantes');
+    $city->setpostalCode('44000');
+
+    dump($city);
+
+    $entityManager->persist($city);
+    $entityManager->flush();
+
+    //$entityManager = $this->getDoctrine()->getManager();
+
+    return $this->render('event/city.html.twig');
+}
+*/
+
 }
