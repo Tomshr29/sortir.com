@@ -12,21 +12,41 @@
     <p>Le nom de la sortie contien : {% include "searchData.html.twig"%}</p>
 
     <h2>Liste des sorties</h2>
-    <nav>
-        <ul>
-            <li>Nom de la sortie &ensp;</li>
-            <li>Date de la sortie &ensp;</li>
-            <li>Clôture</li>
-            <li>Inscrits/places</li>
-            <li>Etat</li>
-            <li>Inscrit</li>
-            <Li>Actions</Li>
-        </ul>
-    </nav>
+    <section class="trip-list">
+        <table>
+            <thead>
+            <tr>
+                <th>Nom de la sortie</th>
+                <th>Date de la sortie</th>
+                <th>Clôture</th>
+                <th>Inscrits/Places</th>
+                <th>Etat</th>
+                <th>Inscrit</th>
+                <th>Organisateur</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
 
-    <div>
-        <p>Test</p>
-    </div>
+            {% for trip in trip %}
+                <tr>
+                    <td>{{ trip.name }}</td>
+                    <td>{{ trip.dateTimeStart }}</td>
+                    <td>{{ trip.registrationDeadline }}</td>
+                    <td>{{ trip.maxNumbRegistration }}</td>
+                    <td>{{ trip.statut }}</td>
+                    <td>
+                        <a href="#">Afficher</a>
+                        {% if user.username %}
+                        <a href="#" title="{{ user.pseudo }}">{{ user.username }}</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
 
 
 
