@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un lieu | {{ parent() }}{% endblock %}
+
+{% block body %}
+
+    <h2>Ajouter un lieu</h2>
+
+    <!-- <div class="formContainer"> -->
+
+        <div class="placeForm">
+
+            {{ form_start(placeForm) }}
+
+            {{ form_widget(placeForm) }}
+
+            <button>Ajouter</button>
+
+            {{ form_end(placeForm) }}
+
+        </div>
+
+    <!-- </div> -->
+
+{% endblock %}

@@ -12,7 +12,7 @@ body {
 }
 
 .container {
-    max-width: 800px;
+    max-width: 1200px;
     margin: auto;
     padding: 0 10px;
 }
@@ -81,20 +81,10 @@ input,
 textarea,
 select {
     /*margin-bottom: 1rem;*/ /* !!! Empêche le centrage vertical d'éléments de formulaire dans des lignes de tableau telles que dans la page list.html.twig !!!*/
-    box-sizing: border-box;
-    width: 100%;
+    /*box-sizing: border-box;*/
+    /*width: 100%;*/
 }
 
-.button-list-add {
-    margin: 0 auto; /* Centrage horizontal */
-}
-
-button {
-    margin-top: 20px;
-    margin-bottom: 10px;
-    padding: 0.2rem 0.7rem;
-    font-family: inherit;
-}
 .user_btn{
     margin-top: 20px;
     width: 20rem;
@@ -114,6 +104,15 @@ h2 {
 /*.formContainer { }*/
 
 .cityForm {
+    margin: 0 auto; /* Centrage horizontal */
+    width: 400px; /* Largeur du formulaire */
+    padding: 15px;
+    border-radius: 15px;
+    justify-content: center;
+    background: #e3e3e3;
+}
+
+.placeForm {
     margin: 0 auto; /* Centrage horizontal */
     width: 400px; /* Largeur du formulaire */
     padding: 15px;
