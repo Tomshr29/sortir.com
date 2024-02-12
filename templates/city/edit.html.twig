@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Édition d'une ville{% endblock %}
+
+{% block body %}
+
+    <h2>Édition d'une ville</h2>
+
+    <section class="city-list">
+        <form method="post">
+            <table>
+                <thead>
+                <tr>
+                    <th>Ville</th>
+                    <th>Code Postal</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr>
+                    <td>{{ form_start(cityForm) }}{{ form_widget(cityForm.name) }}</td>
+                    <td>{{ form_widget(cityForm.postalCode) }}</td>
+                    <td>
+                        <button type="submit" class="save-btn">Enregistrer</button>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+            {{ form_end(cityForm) }}
+    </section>
+
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un lieu | {{ parent() }}{% endblock %}
+
+{% block body %}
+
+    <h2>Gérer les lieux</h2>
+
+    <section class="place-list">
+        <form method="post">
+            <table>
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Rue</th>
+                    <th>Ville</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for place in places %}
+                    <tr>
+                        <td>{{ place.name }}</td>
+                        <td>{{ place.street }}</td>
+                        <td>{{ place.city.name }}</td>
+                        <td>{{ place.latitude }}</td>
+                        <td>{{ place.longitude }}</td>
+                        <td>
+                            <a href="{{ path('place_edit', {'id': place.id}) }}" title="Modifier">Modifier</a>
+                            <a href="{{ path('place_delete', {'id': place.id}) }}" title="Supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce lieu ?')">Supprimer</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                <tr>
+                    <td class="place-list">
+                        {{ form_start(placeForm) }}
+                        {{ form_widget(placeForm.name) }}
+                    </td>
+                    <td class="place-list">
+                        {{ form_widget(placeForm.street) }}
+                    </td>
+                    <td class="place-list">
+                        {{ form_widget(placeForm.city) }}
+                    </td>
+                    <td class="place-list">
+                        {{ form_widget(placeForm.latitude) }}
+                    </td>
+                    <td class="place-list">
+                        {{ form_widget(placeForm.longitude) }}
+                    </td>
+                    <td class="place-list">
+                        <button class="place-list-add" type="submit">Ajouter</button>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+            {{ form_end(placeForm) }}
+    </section>
+
+{% endblock %}

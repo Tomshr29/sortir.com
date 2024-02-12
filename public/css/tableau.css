@@ -4,6 +4,8 @@
     font-family: 'Inter', sans-serif;
 }
 
+/*==============================================================================*/
+
 .city-list table {
     width: 100%;
     border-collapse: collapse;
@@ -23,6 +25,74 @@
 .city-list th {
     background-color: #f2f2f2; /* Couleur de fond pour les entêtes de colonne */
 }
+
+.city-list a {
+    font-size: 14px;
+    margin-left: 20px;
+}
+
+.city-list input {
+    height: 30px; /* ou une largeur de votre choix */
+}
+
+.city-list input#city_creation_form_name {
+    width: 400px;
+}
+
+.city-list input#city_creation_form_postalCode {
+    width: 70px;
+}
+
+.city-list button.city-list-add {
+    width: 100%;
+    padding: 10px;
+}
+
+/*==============================================================================*/
+
+.save-btn { right: 10px; }
+
+/*==============================================================================*/
+
+.place-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.place-list th, .place-list td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+.place-list-add th, .place-list-add td {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+.place-list th {
+    background-color: #f2f2f2;
+}
+
+.place-list a {
+    font-size: 14px;
+    margin-left: 20px;
+}
+
+.place-list input {
+    height: 30px; /* ou une largeur de votre choix */
+}
+
+.place-list select#place_creation_form_city {
+    height: 35px; /* ou une hauteur de votre choix */
+}
+
+.place-list button.place-list-add {
+    width: 100%;
+    padding: 10px;
+}
+
+/*==============================================================================*/
 
 .trip-list table {
     width: 100%;

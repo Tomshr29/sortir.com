@@ -46,7 +46,7 @@ class CityController extends AbstractController
         }
         return $this->render('city/list.html.twig', [
             'citys' => $citys,
-            'cityForm' => $cityForm
+            'cityForm' => $cityForm->createView()
         ]);
     }
 
@@ -71,6 +71,45 @@ class CityController extends AbstractController
         return $this->render('city/createCity.html.twig', [
             'cityForm' => $cityForm->createView()
         ]);
+    }
+
+
+    #[Route('/edit/{id}', name: 'edit')]
+    public function edit(Request $request, EntityManagerInterface $entityManager, CityRepository $cityRepository, int $id): Response
+    {
+        $city = $cityRepository->find($id);
+
+        if (!$city) {
+            throw $this->createNotFoundException('La ville n\'existe pas');
+        }
+
+        $cityForm = $this->createForm(CityCreationFormType::class, $city);
+        dump($city);
+        $cityForm->handleRequest($request);
+        dump($city);
+
+        if ($cityForm->isSubmitted() && $cityForm->isValid()) {
+            $entityManager->flush();
+
+            $this->addFlash('success', 'La ville a bien été modifiée');
+            return $this->redirectToRoute('city_list');
+        }
+
+        return $this->render('city/edit.html.twig', [
+            'cityForm' => $cityForm->createView(),
+        ]);
+    }
+
+    #[Route('/delete/{id}', name: 'delete')]
+    public function delete(EntityManagerInterface $entityManager, City $city): Response
+    {
+        // Remove the city from the database
+        $entityManager->remove($city);
+        $entityManager->flush();
+
+        // Redirect to the city list page with a success message
+        $this->addFlash('success', 'La ville a bien été supprimée');
+        return $this->redirectToRoute('city_list');
     }
 
 /*

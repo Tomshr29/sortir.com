@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Édition d'un lieu{% endblock %}
+
+{% block body %}
+
+    <h2>Édition d'un lieu</h2>
+
+    <section class="place-list">
+        <form method="post">
+            <table>
+                <thead>
+                <tr>
+                    <th>Lieu</th>
+                    <th>Street</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr>
+                    <td>{{ form_start(placeForm) }}{{ form_widget(placeForm.name) }}</td>
+                    <td>{{ form_widget(placeForm.street) }}</td>
+                    <td>
+                        <button type="submit" class="save-btn">Enregistrer</button>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+            {{ form_end(placeForm) }}
+    </section>
+
+{% endblock %}
