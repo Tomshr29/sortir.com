@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ trip.name }} - Détails de la sortie | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ trip.name }}</h1>
+
+    <p>Date de début : {{ trip.dateTimeStart|date('l d F Y à H:i') }}</p>
+    <p>Durée: {{ trip.duration|date('H:i') }}</p>
+    <p>Description: {{ trip.tripInfo }}</p>
+{% endblock %}

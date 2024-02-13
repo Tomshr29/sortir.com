@@ -20,6 +20,9 @@ class Trip
     private ?string $name = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $publicationDate = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateTimeStart = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -74,6 +77,18 @@ class Trip
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getPublicationDate(): ?\DateTimeInterface
+    {
+        return $this->publicationDate;
+    }
+
+    public function setPublicationDate(\DateTimeInterface $publicationDate): static
+    {
+        $this->publicationDate = $publicationDate;
 
         return $this;
     }
@@ -201,7 +216,7 @@ class Trip
     /**
      * @return Collection<int, User>
      */
-    public function getParticipant(): Collection
+    public function getParticipants(): Collection
     {
         return $this->participant;
     }

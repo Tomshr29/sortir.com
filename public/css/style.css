@@ -11,14 +11,26 @@ body {
     min-height: 100vh;
 }
 
+.img-bkgd {
+    background-image: url('../img/ecole_eni_(smallsizenb).png');
+    background-position: center;
+    background-size: cover; /* ou contain, selon vos préférences */
+    width: 20%;
+    height: 30vh; /* ou une hauteur de votre choix */
+    position: fixed;
+    top: 50%; /* Positionner la div au milieu de la page verticalement */
+    left: 50%; /* Positionner la div au milieu de la page horizontalement */
+    transform: translate(-50%, -50%); /* Centrer la div précisément */
+    z-index: -1;
+}
+
 .container {
-    max-width: 1200px;
+    max-width: 100%;
     margin: auto;
     padding: 0 10px;
 }
 .container .profil {
     display: block;
-
 }
 
 .header-nav {
@@ -54,8 +66,7 @@ body {
     align-self: flex-end;
 }
 
-.connect {
-    text-align: right}
+.connect { text-align: right }
 
 main {
     flex: 1;

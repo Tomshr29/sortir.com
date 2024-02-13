@@ -52,6 +52,7 @@
 
 .save-btn { right: 10px; }
 
+
 /*==============================================================================*/
 
 .place-list table {
@@ -99,7 +100,7 @@
     border-collapse: collapse;
 }
 
-.trip-list th, .city-list td {
+.trip-list th, .trip-list td {
     border: 1px solid #ccc;
     padding: 8px;
     text-align: left;
@@ -113,3 +114,28 @@
 .trip-list th {
     background-color: #f2f2f2; /* Couleur de fond pour les entêtes de colonne */
 }
+
+.trip-list a {
+    font-size: 14px;
+    margin-left: 20px;
+}
+
+.trip-list p {
+    font-size: 20px;
+    text-align: center;
+}
+
+.trip-list input {
+    height: 30px; /* ou une largeur de votre choix */
+}
+
+.trip-list button.trip-list-add {
+    width: 100%;
+    padding: 10px;
+}
+
+.trip-list .centered-cell {
+    text-align: center;
+}
+
+/*==============================================================================*/
