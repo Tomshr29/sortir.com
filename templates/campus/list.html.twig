@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un campus | {{ parent() }}{% endblock %}
+
+{% block body %}
+
+<h2>Gérer les campus</h2>
+
+<section class="city-list">
+    <form method="post">
+        <table>
+            <thead>
+                <tr>
+                    <th>Campus</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for campus in campuses %}
+                <tr>
+                    <td>{{ campus.name }}</td>
+                    <td>
+                        <a href="{{ path('campus_edit', {'id': campus.id}) }}" title="Modifier">Modifier</a>
+                        <a href="{{ path('campus_delete', {'id': campus.id}) }}" title="Supprimer"
+                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette ville ?')">Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+
+                <tr>
+                    <td class="city-list">
+                        {{ form_start(campusForm) }}
+                        {{ form_widget(campusForm.name) }}
+                    </td>
+                    <td class="city-list">
+                        <button class="city-list-add" type="submit">Ajouter</button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        {{ form_end(campusForm) }}
+</section>
+
+{% endblock %}
