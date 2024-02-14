@@ -8,7 +8,8 @@
     <h1>Liste des sorties</h1>
 
     <p>Filtrer les sorties</p>
-    <p>Campus, a remplacer par la liste de choix des campus</p>
+    <a href="{{ path('trip_newTrip') }}" title="Ajouter une sortie"><button class="button user_btn">Ajouter une sortie</button></a>
+    <p>Campus : {{ user.campus.name }}</p>
     <p>Le nom de la sortie contien : {% include "searchData.html.twig"%}</p>
 
     <p>Date & Heure du Jour : {{ "now"|date_modify('+1 hour')|date('d-m-Y H:i') }}</p>
@@ -160,5 +161,5 @@
 
 
 
-    <a href="{{ path('app_newTrip') }}" title="New Trip"><button>Créer une sortie</button></a>
+    <a href="{{ path('trip_newTrip') }}" title="New Trip"><button>Créer une sortie</button></a>
 {% endblock %}

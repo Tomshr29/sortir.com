@@ -10,13 +10,52 @@ Nouvelle sortie | {{ parent() }}
     <h1>Créer une sortie</h1>
 
     <div class="newTrip">
+        campus : {{ user.campus.name }}
+
         <div class="formNewTrip">
-            {{ form_start(tripForm) }}
+            {{ form_start(form) }}
 
-            {{ form_widget(tripForm) }}
+            {{ form_widget(form) }}
+                <button type="submit" >Créer</button>
+            {{ form_end(form) }}
 
-            <button>Create a new trip</button>
 
-            {{ form_end(tripForm) }}
+        </div>
+        <div class="TODO nom form lieu">
+
+
+        </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        window.onload = () => {
+            //on va chercher la city
+            let city = document.querySelector("#trip_city");
+
+            city.addEventListener("change", function(){
+               let form = this.closest("form");
+               let data = this.name + "=" + this.value;
+
+               fetch(form.action, {
+                   method: form.getAttribute("method"),
+                   body: data,
+                   headers: {
+                       "Content-Type": "application/x-www-form-urlencoded; charset:UTF-8"
+                   }
+               })
+                   .then(response => response.text())
+                   .then(html => {
+                       let content = document.createElement("html");
+                       content.innerHTML = html;
+                       let nouveauSelect = content.querySelector("#trip_place");
+                       document.querySelector("#trip_place").replaceWith(nouveauSelect);
+                   })
+                   .catch(error => {
+                       console.log(error);
+                   })
+            });
+        }
+    </script>
 {% endblock %}

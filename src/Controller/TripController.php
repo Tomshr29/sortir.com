@@ -2,16 +2,27 @@
 
 namespace App\Controller;
 
+use App\DTO\TripDTO;
+use App\Entity\Campus;
+use App\Entity\Place;
+use App\Entity\Shape;
 use App\Entity\Trip;
+use App\Entity\User;
+use App\Form\DTOType;
 use App\Form\SearchType;
 use App\Form\TripType;
 use App\Model\SearchData;
 use App\Repository\TripRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\User\UserInterface;
+use DateTime;
 
+#[Route('/trips', name: 'trip_')]
 class TripController extends AbstractController
 {
     #[Route('/trip', name: 'app_trip')]
@@ -37,13 +48,15 @@ class TripController extends AbstractController
     #[Route('/list', name: 'list', methods: ['GET'])]
     public function list(TripRepository $tripRepository, Request $request): Response
     {
+        $user = $this->getUser();
+
         $searchData = new SearchData();
         $form = $this->createForm(SearchType::class, $searchData);
 
         $trips = $tripRepository->findAll();
 
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $searchData->page = $request->query->getInt('page', 1);
             $trips = $tripRepository->findBySearch($searchData);
@@ -81,31 +94,43 @@ class TripController extends AbstractController
             'form' => $form->createView(),
             'trips' => $trips,
             'currentDateTime' => $this->currentDateTime(), // Passer la date et l'heure actuelles à la vue Twig
+            'user' => $user,
             'formDTO' => $formDTO->createView(),
             'data' => $data
         ]);
     }
 
-
-    #[Route('/newTrip', name: 'app_newTrip', methods: ['GET'])]
+    #[Route('/newTrip', name: 'newTrip')]
     public function newTrip(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
+
+
         $trip = new Trip();
-        $tripForm = $this->createForm(TripType::class, $trip);
+        $form = $this->createForm(TripType::class, $trip);
+        $shape = $trip->getShape();
+        $form->handleRequest($request);
 
-        $tripForm->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
 
-        if ($tripForm->isSubmitted() && $tripForm->isValid()){
+            $this->addFlash(
+                'success',
+                'La sortie a bien été créée!'
+            );
+
             $entityManager->persist($trip);
             $entityManager->flush();
+
+            return $this->redirectToRoute('trip_list');
         }
 
-        # $place = $entityManager->getRepository(Place::class)->find($id);#
 
+        return $this->render('trip/newTrip.html.twig', [
+            'form' => $form->createView(),
+            'user' => $user,
+        ]);
 
-            return $this->render('trip/newTrip.html.twig', [
-                'tripForm' => $tripForm->createView()
-            ]);
 
     }
 
@@ -117,7 +142,7 @@ class TripController extends AbstractController
         ]);
     }
 
-}
+
 
     #[Route('/trip/{id}', name: 'trip-show')]
     public function show(Trip $trip): Response
@@ -246,3 +271,8 @@ class TripController extends AbstractController
             // Par exemple, en affichant un message d'erreur
             echo 'La conversion de la date a échoué ou une des entités n\'existe pas.';
         }
+
+        return $this->render('trip/list.html.twig');
+    }
+*/
+}
