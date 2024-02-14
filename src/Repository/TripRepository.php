@@ -68,5 +68,26 @@ class TripRepository extends ServiceEntityRepository
 
        return $trip;
     }
+
+    /**
+     * @throws \Exception
+     */
+    public function getByDate(\DateTime $date){
+
+        $from = new \DateTime($date->format("d-m-Y")." 00:00:00");
+        $to = new \DateTime($date->format("d-m-Y"." 23:59:59"));
+
+        $queryBuilder = $this->createQueryBuilder("e");
+        $queryBuilder
+            ->andWhere('e.date BETWEEN :from AND :to')
+            ->setParameter('from', $from)
+            ->setParameter('to', $to);
+
+        $result = $queryBuilder->getQuery()->getResult();
+
+        return $result;
+
+
+    }
 }
 

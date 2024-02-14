@@ -3,9 +3,6 @@
 namespace App\Controller;
 
 use App\DTO\TripDTO;
-use App\Entity\Campus;
-use App\Entity\Place;
-use App\Entity\Shape;
 use App\Entity\Trip;
 use App\Entity\User;
 use App\Form\DTOType;
@@ -19,8 +16,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\User\UserInterface;
 use DateTime;
+
 
 #[Route('/trips', name: 'trip_')]
 class TripController extends AbstractController
@@ -72,10 +69,14 @@ class TripController extends AbstractController
         $tripDTO = new TripDTO;
         $formDTO =$this->createForm(DTOType::class, $tripDTO);
 
+
         $data = $request->request->all();
 
         $formDTO->handleRequest($request);
         if($formDTO->isSubmitted() && $formDTO->isValid()){
+
+            $now = new \DateTime();
+            $data = $tripRepository->getByDate($now);
 
             $tripDTO->setOrganizer($data['getOrganizer']);
             $tripDTO->setSubscribe($data['getSubscribe']);
@@ -84,7 +85,7 @@ class TripController extends AbstractController
 
             return $this->render('trip/listTrip.html.twig', [
                 'formDTO' => $formDTO->createView(),
-                'data' => $data
+                'data' => $data,
             ]);
 
         }
