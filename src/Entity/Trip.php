@@ -19,14 +19,14 @@ class Trip
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $publicationDate = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $dateTimeStart = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateTimeStart;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $duration = null;
+    #[ORM\Column]
+    private ?int $duration = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $registrationDeadline = null;
@@ -37,8 +37,8 @@ class Trip
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $tripInfo = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $statut = null;
+//    #[ORM\Column(length: 50)]
+//    private ?string $statut = null;
 
     #[ORM\ManyToOne(inversedBy: 'trip')]
     #[ORM\JoinColumn(nullable: false)]
@@ -62,6 +62,7 @@ class Trip
     public function __construct()
     {
         $this->participant = new ArrayCollection();
+        $this->dateTimeStart = new \DateTime();
     }
 
     public function getId(): ?int
@@ -86,7 +87,7 @@ class Trip
         return $this->publicationDate;
     }
 
-    public function setPublicationDate(\DateTimeInterface $publicationDate): static
+    public function setPublicationDate(?\DateTimeInterface $publicationDate): static
     {
         $this->publicationDate = $publicationDate;
 
@@ -98,19 +99,19 @@ class Trip
         return $this->dateTimeStart;
     }
 
-    public function setDateTimeStart(\DateTimeInterface $dateTimeStart): static
+    public function setDateTimeStart(?\DateTimeInterface $dateTimeStart): static
     {
         $this->dateTimeStart = $dateTimeStart;
 
         return $this;
     }
 
-    public function getDuration(): ?\DateTimeInterface
+    public function getDuration(): ?int
     {
         return $this->duration;
     }
 
-    public function setDuration(\DateTimeInterface $duration): static
+    public function setDuration(int $duration): static
     {
         $this->duration = $duration;
 
@@ -122,7 +123,7 @@ class Trip
         return $this->registrationDeadline;
     }
 
-    public function setRegistrationDeadline(\DateTimeInterface $registrationDeadline): static
+    public function setRegistrationDeadline(?\DateTimeInterface $registrationDeadline): static
     {
         $this->registrationDeadline = $registrationDeadline;
 
@@ -153,17 +154,17 @@ class Trip
         return $this;
     }
 
-    public function getStatut(): ?string
-    {
-        return $this->statut;
-    }
-
-    public function setStatut(string $statut): static
-    {
-        $this->statut = $statut;
-
-        return $this;
-    }
+//    public function getStatut(): ?string
+//    {
+//        return $this->statut;
+//    }
+//
+//    public function setStatut(string $statut): static
+//    {
+//        $this->statut = $statut;
+//
+//        return $this;
+//    }
 
     public function getPlace(): ?Place
     {
