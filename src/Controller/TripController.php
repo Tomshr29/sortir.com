@@ -24,13 +24,6 @@ use DateTime;
 #[Route('/trips', name: 'trip_')]
 class TripController extends AbstractController
 {
-    #[Route('/trip', name: 'app_trip')]
-    public function index(): Response
-    {
-        return $this->render('trip/index.html.twig', [
-            'controller_name' => 'TripController',
-        ]);
-    }
 
     public function currentDateTime(): DateTime
     {
