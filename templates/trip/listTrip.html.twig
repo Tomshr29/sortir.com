@@ -8,8 +8,23 @@
     <h1>Liste des sorties</h1>
 
     <p>Filtrer les sorties</p>
-    <p>Campus, a remplacer par la liste de choix des campus</p>
+
+
+            <p>Campus :</p>
+
+
     <p>Le nom de la sortie contien : {% include "searchData.html.twig"%}</p>
+
+    {{ form_start(formDTO) }}
+
+    {{ form_row(formDTO.getOrganizer) }}
+    {{ form_row(formDTO.getSubscribe) }}
+    {{ form_row(formDTO.getUnsubscribe) }}
+    {{ form_row(formDTO.getLastTrip) }}
+
+    {{ form_end(formDTO) }}
+
+
 
     <h2>Liste des sorties</h2>
     <section class="trip-list">
