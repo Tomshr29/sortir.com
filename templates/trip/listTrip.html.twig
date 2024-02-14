@@ -8,12 +8,10 @@
     <h1>Liste des sorties</h1>
 
     <p>Filtrer les sorties</p>
-
-
-            <p>Campus :</p>
-
-
+    <p>Campus, a remplacer par la liste de choix des campus</p>
     <p>Le nom de la sortie contien : {% include "searchData.html.twig"%}</p>
+
+    <p>Date & Heure du Jour : {{ "now"|date_modify('+1 hour')|date('d-m-Y H:i') }}</p>
 
     {{ form_start(formDTO) }}
 
@@ -46,14 +44,110 @@
             {% for trip in trips %}
                 <tr>
                     <td>{{ trip.name }}</td>
-                    <td>{{ trip.dateTimeStart }}</td>
-                    <td>{{ trip.registrationDeadline }}</td>
-                    <td>{{ trip.maxNumbRegistration }}</td>
-                    <td>{{ trip.statut }}</td>
+                    <td>{{ trip.dateTimeStart|date('d-m-Y H:i') }}</td>
+                    <td>{{ trip.registrationDeadline|date('d-m-Y H:i') }}</td>
+                    <td class="centered-cell">{{ trip.participants|length }} / {{ trip.maxNumbRegistration }}</td>
                     <td>
-                        <a href="#">Afficher</a>
-                        {% if user.username %}
-                        <a href="#" title="{{ user.pseudo }}">{{ user.username }}</a>
+                        {% if trip.shape %}
+                            {{ trip.shape.wording }}
+                        {% else %}
+                            État inconnu
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if app.user %}
+                            {% if trip.participants|length >= trip.maxNumbRegistration %}
+                                <p class="trip-list" title="x">x</p>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if trip.organizer %}
+                            {{ trip.organizer.firstname }} {{ trip.organizer.lastname }}
+                        {% else %}
+                            Organisateur inconnu
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if app.user %}
+
+                            <!-- ========================================================== -->
+                            {% if trip.shape %}
+                                {% if trip.shape.wording == 'Ouvertes' %}
+                                    {% if app.user %}
+                                        {% set isRegistered = false %}
+                                        {% for participant in trip.participants %}
+                                            {% if participant.id == app.user.id %}
+                                                {% set isRegistered = true %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if isRegistered %}
+                                            <a href="{{ path('trip_trip-show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+                                            <a href="{{ path('trip_unsubscribe-trip', {'id': trip.id}) }}" title="Se désister">Se désister</a>
+                                        {% else %}
+                                            {% if trip.participants|length < trip.maxNumbRegistration %}
+                                                <a href="{{ path('trip_trip-show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+                                                <a href="{{ path('trip_trip-register', {'id': trip.id}) }}" title="S'inscrire">S'inscrire</a>
+                                            {% else %}
+                                                <!-- Ne rien afficher -->
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                    <!-- ========================================================== -->
+                                    <!-- ========================================================== -->
+                                {% elseif trip.shape.wording == 'En création' %}
+                                    <a href="#" title="Modifier">Modifier</a>
+                                    <a href="#" title="Publier">Publier</a>
+                                {% else %}
+                                    <!-- Ne rien afficher -->
+                                {% endif %}
+                            {% else %}
+                                <!-- État inconnu -->
+                            {% endif %}
+                            <!-- ========================================================== -->
+                            <!-- ========================================================== -->
+                            {% if trip.shape %}
+                                {% if trip.shape.wording == 'En cours' %}
+                                <td><a href="{{ path('trip_trip-show', {'id': trip.id}) }}">{{ trip.name }}</a></td>
+                                {% else %}
+                                    <!-- Ne rien afficher -->
+                                {% endif %}
+                            {% else %}
+                                <!-- État inconnu -->
+                            {% endif %}
+                            <!-- ========================================================== -->
+                            <!-- ========================================================== -->
+                            {% if trip.shape %}
+                                {% if trip.shape.wording == 'Clôturées' %}
+                                    {% if app.user %}
+                                        {% set isRegistered = false %}
+                                        {% for participant in trip.participants %}
+                                            {% if participant.id == app.user.id %}
+                                                {% set isRegistered = true %}
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        {% if isRegistered %}
+                                            {% if trip.dateTimeStart >= currentDateTime %}
+                                                <a href="{{ path('trip_trip-show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+                                                <a href="{{ path('trip_list', {'id': trip.id}) }}" title="Se désister">Se désister</a>
+                                            {% elseif trip.dateTimeStart < currentDateTime %}
+                                                <a href="{{ path('trip_trip-show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+                                            {% endif %}
+                                        {% else %}
+                                            <a href="{{ path('trip_trip-show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+                                        {% endif %}
+                                    {% else %}
+                                        <a href="{{ path('trip_trip-show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+                                    {% endif %}
+                                {% else %}
+                                    <!-- Ne rien afficher -->
+                                {% endif %}
+                            {% else %}
+                                <!-- État inconnu -->
+                            {% endif %}
+                            <!-- ========================================================== -->
+
                         {% endif %}
                     </td>
                 </tr>

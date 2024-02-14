@@ -7,43 +7,44 @@
     <h2>Gérer les villes</h2>
 
     <section class="city-list">
-        <table>
-            <thead>
-            <tr>
-                <th>Ville</th>
-                <th>Code Postal</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-
-            {% for city in citys %}
+        <form method="post">
+            <table>
+                <thead>
                 <tr>
-                    <td>{{ city.name }}</td>
-                    <td>{{ city.postalCode }}</td>
-                    <td>
-                        <a href="#">Modifier</a>
-                        <a href="#" title="Supprimer">Supprimer</a>
+                    <th>Ville</th>
+                    <th>Code Postal</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for city in citys %}
+                    <tr>
+                        <td>{{ city.name }}</td>
+                        <td>{{ city.postalCode }}</td>
+                        <td>
+                            <a href="{{ path('city_edit', {'id': city.id}) }}" title="Modifier">Modifier</a>
+                            <a href="{{ path('city_delete', {'id': city.id}) }}" title="Supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette ville ?')">Supprimer</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                <tr>
+                    <td class="city-list">
+                        {{ form_start(cityForm) }}
+                        {{ form_widget(cityForm.name) }}
+                    </td>
+                    <td class="city-list">
+                        {{ form_widget(cityForm.postalCode) }}
+                    </td>
+                    <td class="city-list">
+                        <button class="city-list-add" type="submit">Ajouter</button>
                     </td>
                 </tr>
-            {% endfor %}
 
-            <tr>
-                <td class="city-list">
-                    {{ form_start(cityForm) }}
-                    {{ form_widget(cityForm.name) }}
-                </td>
-                <td class="city-list">
-                    {{ form_widget(cityForm.postalCode) }}
-                </td>
-                <td class="city-list-add">
-                    <div class="button-list-add"><button type="submit">Ajouter</button></div>
-                    {{ form_end(cityForm) }}
-                </td>
-            </tr>
-
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+            {{ form_end(cityForm) }}
     </section>
 
 {% endblock %}

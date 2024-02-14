@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Édition d'un campus{% endblock %}
+
+{% block body %}
+
+<h2>Édition d'un campus</h2>
+
+<section class="city-list">
+    <form method="post">
+        <table>
+            <thead>
+                <tr>
+                    <th>Campus</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>{{ form_start(campusForm) }}{{ form_widget(campusForm.name) }}</td>
+                    <td>
+                        <button type="submit" class="save-btn">Enregistrer</button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        {{ form_end(campusForm) }}
+</section>
+
+{% endblock %}
