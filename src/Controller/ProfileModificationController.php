@@ -18,6 +18,15 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/user', name: 'user_')]
 class ProfileModificationController extends AbstractController
 {
+
+    private function isUsernameUnique(User $user, EntityManagerInterface $entityManager): bool
+    {
+        $existingUser = $entityManager->getRepository(User::class)->findOneBy(['username' => $user->getUsername()]);
+
+        return $existingUser === null || $existingUser->getId() === $user->getId();
+    }
+
+
     #[Route('/profil/{id}', name: 'profil')]
     public function view(int $id,UserRepository $userRepository,
                             Request $request, EntityManagerInterface $entityManager): Response
@@ -29,17 +38,15 @@ class ProfileModificationController extends AbstractController
         ]);
     }
     #[Route('/profil/edit/{id}', name: 'edit')]
-    public function edit(int $id,UserRepository $userRepository,
+    public function edit(int $id,User $user, UserRepository $userRepository,
                             Request $request, EntityManagerInterface $entityManager): Response
     {
-        $user = $userRepository->find($id);
-
         if (!$this->getUser()){
             return $this->redirectToRoute('app_login');
         }
 
         if ($this->getUser() !== $user){
-            return $this->redirectToRoute('app_listTrip');
+            return $this->redirectToRoute('trip_list');
         }
 
         $form = $this->createForm(ProfileModificationType::class, $user);
@@ -48,9 +55,8 @@ class ProfileModificationController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             // Check if username is already existe
-            $existingUser = $entityManager->getRepository(User::class)->findOneBy(['username' => $user->getUsername()]);
 
-            if ($existingUser) {
+            if (!$this->isUsernameUnique($user, $entityManager)) {
                 $this->addFlash('error', 'Ce Pseudo existe déjà. Veuillez en choisir un autre.');
                 return $this->redirectToRoute('user_profil' , ['id' => $id]);
             }
