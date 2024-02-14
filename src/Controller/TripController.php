@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\DTO\TripDTO;
+use App\Entity\Shape;
 use App\Entity\Trip;
 use App\Entity\User;
 use App\Form\DTOType;
@@ -109,7 +110,7 @@ class TripController extends AbstractController
         $campus = $user->getCampus();
 
         $trip = new Trip();
-        //application de la Shape Id 1 : "créée"
+        //application de la Shape Id 1 : "En création"
         $shapeRepository = $entityManager->getRepository(Shape::class);
         $shape = $shapeRepository->findOneBy(['id' => 1]);
 
@@ -140,21 +141,40 @@ class TripController extends AbstractController
         ]);
     }
 
-    #[Route('/detailTrip', name: 'app_detailTrip')]
-    public function detailTrip (): Response
+//    #[Route('/publier/{id}', name: 'publish')]
+//    public function publishedTrip(Trip $trip, ShapeRepository $shapeRepository, EntityManagerInterface $entityManager): Response
+//    {
+//        $shape = $shapeRepository->findOneBy(['id' => 2]);
+//
+//        $trip->setShape($shape);
+//
+//        $entityManager->persist($trip);
+//        $entityManager->flush();
+//
+//        return $this->render('trip/show.html.twig', [
+//            'trip' => $trip,
+//        ]);
+//    }
+
+    #[Route('/publier/{id}', name: 'publish')]
+    public function publishedTrip(Trip $trip, ShapeRepository $shapeRepository, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('trip/detailTrip.html.twig', [
-            'Controller_Name' => 'detailTrip'
+        $shape = $shapeRepository->findOneBy(['id' => 2]);
+        $trip->setShape($shape);
+        $entityManager->flush();
+
+        return $this->render('trip/publisedTrip.html.twig', [
+            'trip' => $trip,
         ]);
     }
 
-
-
-    #[Route('/trip/{id}', name: 'trip-show')]
+    #[Route('/trip/{id}', name: 'show')]
     public function show(Trip $trip): Response
     {
+        $users = $trip->getParticipants();
         return $this->render('trip/show.html.twig', [
             'trip' => $trip,
+            'users'=>$users,
         ]);
     }
 

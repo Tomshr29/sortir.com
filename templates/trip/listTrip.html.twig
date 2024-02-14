@@ -46,7 +46,8 @@
 
             {% for trip in trips %}
                 <tr>
-                    <td>{{ trip.name }}</td>
+                    <td><a href="{{ path('trip_show', {'id': trip.id}) }}" title="Show details">{{ trip.name }}</a></td>
+
                     <td>{{ trip.dateTimeStart|date('d-m-Y H:i') }}</td>
                     <td>{{ trip.registrationDeadline|date('d-m-Y H:i') }}</td>
                     <td class="centered-cell">{{ trip.participants|length }} / {{ trip.maxNumbRegistration }}</td>
@@ -76,7 +77,7 @@
 
                             <!-- ========================================================== -->
                             {% if trip.shape %}
-                                {% if trip.shape.wording == 'Ouvertes' %}
+                                {% if trip.shape.wording == 'Ouverte' %}
                                     {% if app.user %}
                                         {% set isRegistered = false %}
                                         {% for participant in trip.participants %}
@@ -85,11 +86,11 @@
                                             {% endif %}
                                         {% endfor %}
                                         {% if isRegistered %}
-                                            <a href="{{ path('trip_trip-show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+                                            <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
                                             <a href="{{ path('trip_unsubscribe-trip', {'id': trip.id}) }}" title="Se désister">Se désister</a>
                                         {% else %}
                                             {% if trip.participants|length < trip.maxNumbRegistration %}
-                                                <a href="{{ path('trip_trip-show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+                                                <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
                                                 <a href="{{ path('trip_trip-register', {'id': trip.id}) }}" title="S'inscrire">S'inscrire</a>
                                             {% else %}
                                                 <!-- Ne rien afficher -->
@@ -100,7 +101,7 @@
                                     <!-- ========================================================== -->
                                 {% elseif trip.shape.wording == 'En création' %}
                                     <a href="#" title="Modifier">Modifier</a>
-                                    <a href="#" title="Publier">Publier</a>
+                                    <a href="{{ path('trip_publish', {'id': trip.id}) }}" title="Publier">Publier</a>
                                 {% else %}
                                     <!-- Ne rien afficher -->
                                 {% endif %}
@@ -111,7 +112,7 @@
                             <!-- ========================================================== -->
                             {% if trip.shape %}
                                 {% if trip.shape.wording == 'En cours' %}
-                                <td><a href="{{ path('trip_trip-show', {'id': trip.id}) }}">{{ trip.name }}</a></td>
+                                <td><a href="{{ path('trip_show', {'id': trip.id}) }}">{{ trip.name }}</a></td>
                                 {% else %}
                                     <!-- Ne rien afficher -->
                                 {% endif %}
@@ -121,7 +122,7 @@
                             <!-- ========================================================== -->
                             <!-- ========================================================== -->
                             {% if trip.shape %}
-                                {% if trip.shape.wording == 'Clôturées' %}
+                                {% if trip.shape.wording == 'Clôturée' %}
                                     {% if app.user %}
                                         {% set isRegistered = false %}
                                         {% for participant in trip.participants %}
@@ -132,16 +133,16 @@
 
                                         {% if isRegistered %}
                                             {% if trip.dateTimeStart >= currentDateTime %}
-                                                <a href="{{ path('trip_trip-show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+                                                <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
                                                 <a href="{{ path('trip_list', {'id': trip.id}) }}" title="Se désister">Se désister</a>
                                             {% elseif trip.dateTimeStart < currentDateTime %}
-                                                <a href="{{ path('trip_trip-show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+                                                <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
                                             {% endif %}
                                         {% else %}
-                                            <a href="{{ path('trip_trip-show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+                                            <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
                                         {% endif %}
                                     {% else %}
-                                        <a href="{{ path('trip_trip-show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+                                        <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
                                     {% endif %}
                                 {% else %}
                                     <!-- Ne rien afficher -->
@@ -152,7 +153,6 @@
                             <!-- ========================================================== -->
 
                         {% endif %}
-                    </td>
                 </tr>
             {% endfor %}
             </tbody>
