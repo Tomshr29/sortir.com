@@ -10,7 +10,7 @@
     <p>Filtrer les sorties</p>
     <a href="{{ path('trip_newTrip') }}" title="Ajouter une sortie"><button class="button user_btn">Ajouter une sortie</button></a>
     <p>Campus : {{ user.campus.name }}</p>
-    <p>Le nom de la sortie contien : {% include "searchData.html.twig"%}</p>
+    <p>Le nom de la sortie contient : {% include "searchData.html.twig"%}</p>
 
     <p>Date & Heure du Jour : {{ "now"|date_modify('+1 hour')|date('d-m-Y H:i') }}</p>
 

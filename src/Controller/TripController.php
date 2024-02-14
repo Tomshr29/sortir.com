@@ -9,6 +9,7 @@ use App\Form\DTOType;
 use App\Form\SearchType;
 use App\Form\TripType;
 use App\Model\SearchData;
+use App\Repository\ShapeRepository;
 use App\Repository\TripRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -105,11 +106,18 @@ class TripController extends AbstractController
     public function newTrip(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-
+        $campus = $user->getCampus();
 
         $trip = new Trip();
+        //application de la Shape Id 1 : "créée"
+        $shapeRepository = $entityManager->getRepository(Shape::class);
+        $shape = $shapeRepository->findOneBy(['id' => 1]);
+
+         $trip->setShape($shape);
+         $trip->setCampus($campus);
+         $trip->setOrganizer($user);
+
         $form = $this->createForm(TripType::class, $trip);
-        $shape = $trip->getShape();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -126,13 +134,10 @@ class TripController extends AbstractController
             return $this->redirectToRoute('trip_list');
         }
 
-
         return $this->render('trip/newTrip.html.twig', [
             'form' => $form->createView(),
             'user' => $user,
         ]);
-
-
     }
 
     #[Route('/detailTrip', name: 'app_detailTrip')]
