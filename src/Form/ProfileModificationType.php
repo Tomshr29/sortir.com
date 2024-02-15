@@ -5,12 +5,14 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\File;
 
 class ProfileModificationType extends AbstractType
 {
@@ -94,6 +96,8 @@ class ProfileModificationType extends AbstractType
                     new Assert\Length(['min' => 10, 'max' => 15]),
                 ]
             ])
+            ->add('image', FileType::class,
+                ['mapped' => false])
         ;
     }
 

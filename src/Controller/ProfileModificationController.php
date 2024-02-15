@@ -3,17 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use Gedmo\Sluggable\Util\Urlizer;
 use App\Form\EditUserPasswordType;
 use App\Form\ProfileModificationType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/user', name: 'user_')]
 class ProfileModificationController extends AbstractController
@@ -29,7 +32,7 @@ class ProfileModificationController extends AbstractController
 
     #[Route('/profil/{id}', name: 'profil')]
     public function view(int $id,UserRepository $userRepository,
-                            Request $request, EntityManagerInterface $entityManager): Response
+                            Request $request, EntityManagerInterface $entityManager, #[Autowire('%photo_dir%')] string $photoDir): Response
     {
         $user = $userRepository->find($id);
 
@@ -39,7 +42,7 @@ class ProfileModificationController extends AbstractController
     }
     #[Route('/profil/edit/{id}', name: 'edit')]
     public function edit(int $id,User $user, UserRepository $userRepository,
-                            Request $request, EntityManagerInterface $entityManager): Response
+                            Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         if (!$this->getUser()){
             return $this->redirectToRoute('app_login');
@@ -56,9 +59,19 @@ class ProfileModificationController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             // Check if username is already existe
 
+            $file = $form->get('image')->getData();
+
+            $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeFilename = $slugger->slug($originalFilename);
+            $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+
+            $file->move($this->getParameter('photo_dir'), $newFilename);
+
+            $user->setImageFileName($newFilename);
+
             if (!$this->isUsernameUnique($user, $entityManager)) {
                 $this->addFlash('error', 'Ce Pseudo existe déjà. Veuillez en choisir un autre.');
-                return $this->redirectToRoute('user_profil' , ['id' => $id]);
+                return $this->redirectToRoute('user_profil', ['id' => $id]);
             }
 
             $user = $form->getData();
