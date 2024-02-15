@@ -46,8 +46,11 @@ class TripController extends AbstractController
         $searchData = new SearchData();
         $form = $this->createForm(SearchType::class, $searchData);
 
-        //$trips = $tripRepository->findAll();
-        $trips = $tripRepository->findBy(['campus' => $campusId]);
+
+        //afiche les sorties qui ont mois de 1 mois
+        $oneMonthAgo = (new \DateTime())->modify('-1 month');
+        $trips = $tripRepository->findTripsByCampusAndAfterDate($campusId, $oneMonthAgo);
+
 
         //récupère l'état Cloturées
         $shape = $shapeRepository->findOneBy(['id' => 3]);
@@ -224,6 +227,15 @@ class TripController extends AbstractController
             $this->addFlash('error', 'Vous n\'êtes pas inscrit à cette sortie.');
             return $this->redirectToRoute('trip_list'); // Rediriger vers la liste des sorties
         }
+
+        $formattedTripDate = $trip->getDateTimeStart()->format('Y-m-d');
+        $formattedCurrentDate = $this->currentDateTime()->format('Y-m-d');
+        // Vérifier si la sortie n'a pas démarrée
+        if ($formattedTripDate < $formattedCurrentDate ) {
+            $this->addFlash('error', 'Il n\'est plus possible de se désinscrire.');
+            return $this->redirectToRoute('trip_list'); // Rediriger vers la liste des sorties
+        }
+
 
         // Supprimer l'utilisateur de la liste des participants de la sortie
         $trip->removeParticipant($user);

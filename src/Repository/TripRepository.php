@@ -6,6 +6,7 @@ use App\Entity\Trip;
 use App\Model\SearchData;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use DateTime;
 
 /**
  * @extends ServiceEntityRepository<Trip>
@@ -21,6 +22,19 @@ class TripRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Trip::class);
     }
+
+
+    public function findTripsByCampusAndAfterDate($campusId, DateTime $oneMonthAgo): array
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.campus = :campusId')
+            ->andWhere('t.dateTimeStart >= :oneMonthAgo')
+            ->setParameter('campusId', $campusId)
+            ->setParameter('oneMonthAgo', $oneMonthAgo)
+            ->getQuery()
+            ->getResult();
+    }
+
 
 //    /**
 //     * @return Trip[] Returns an array of Trip objects
