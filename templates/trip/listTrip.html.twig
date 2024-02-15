@@ -50,8 +50,6 @@
                     {# CACHE LE TABLEAU DE LA SORTIE EN CREATION POUR LES USERS SAUF POUR L'ORGANIZER #}
                     {% if trip.shape.wording != 'En création' or trip.organizer == app.user %}
 
-                        {% for trip in trips %}
-
                             <tr>
                                 <td>{{ trip.name }}</td>
                                 <td>{{ trip.dateTimeStart|date('d-m-Y H:i') }}</td>
@@ -215,8 +213,6 @@
                                 </td>
 
                             </tr>
-
-                        {% endfor %}
 
                     {% endif %}
 
