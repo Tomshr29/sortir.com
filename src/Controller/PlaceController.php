@@ -97,11 +97,11 @@ class PlaceController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Le lieu a bien été modifié');
-            return $this->redirectToRoute('city_list');
+            return $this->redirectToRoute('place_list');
         }
 
         return $this->render('place/edit.html.twig', [
-            'cityForm' => $placeForm->createView(),
+            'placeForm' => $placeForm->createView(),
         ]);
     }
 
