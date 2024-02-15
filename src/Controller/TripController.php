@@ -6,6 +6,7 @@ use App\DTO\TripDTO;
 use App\Entity\Shape;
 use App\Entity\Trip;
 use App\Entity\User;
+use App\Form\CancelTripType;
 use App\Form\DTOType;
 use App\Form\SearchType;
 use App\Form\TripType;
@@ -59,10 +60,14 @@ class TripController extends AbstractController
             $formattedTripRegistrationDate = $trip->getRegistrationDeadline()->format('Y-m-d');
             $formattedCurrentDate = $this->currentDateTime()->format('Y-m-d');
 
-            if ($formattedTripRegistrationDate < $formattedCurrentDate )
+            if (!$trip->getShape() == ['id'=>2])
             {
-                $trip->setShape($shape);
-                $entityManager->flush();
+                //dd($trip->getShape());
+                if ($formattedTripRegistrationDate < $formattedCurrentDate )
+                {
+                    $trip->setShape($shape);
+                    $entityManager->flush();
+                }
             }
         }
 
@@ -150,6 +155,7 @@ class TripController extends AbstractController
     #[Route('/publier/{id}', name: 'publish')]
     public function publishedTrip(Trip $trip, ShapeRepository $shapeRepository, EntityManagerInterface $entityManager): Response
     {
+        //id 2 = publiée
         $shape = $shapeRepository->findOneBy(['id' => 2]);
         $trip->setShape($shape);
         $entityManager->flush();
@@ -245,6 +251,35 @@ class TripController extends AbstractController
 
         $this->addFlash('success', 'Vous avez été désinscrit de la sortie avec succès.');
         return $this->redirectToRoute('trip_list'); // Rediriger vers la liste des sorties
+    }
+
+    #[Route('/canceled/{id}', name: 'cancel')]
+    public function cancel(Trip $trip, ShapeRepository $shapeRepository, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        //id 5 = Annulée
+        $shape = $shapeRepository->findOneBy(['id' => 5 ]);
+
+
+        $form = $this->createForm(CancelTripType::class, $trip);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //dd($shape);
+            $trip->setShape($shape);
+            $this->addFlash(
+                'success',
+                'La sortie a bien été annulée!'
+            );
+
+            $entityManager->persist($trip);
+            $entityManager->flush();
+            return $this->redirectToRoute('trip_list');
+        }
+
+        return $this->render('trip/removeTrip.html.twig', [
+            'form' => $form->createView(),
+            'trip' => $trip,
+        ]);
     }
 
     /*

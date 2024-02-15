@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Liste des sorties</h1>
 
-{#    <p>Filtrer les sorties</p>
+    <p>Filtrer les sorties</p>
     <a href="{{ path('trip_newTrip') }}" title="Ajouter une sortie"><button class="button user_btn">Ajouter une sortie</button></a>
     <p>Campus : {{ user.campus.name }}</p>
     <p>Le nom de la sortie contient : {% include "searchData.html.twig"%}</p>
@@ -21,12 +21,14 @@
     {{ form_row(formDTO.getUnsubscribe) }}
     {{ form_row(formDTO.getLastTrip) }}
 
-    <button type="submit">Rechercher</button>
+        <button type="submit">Rechercher</button>
 
-    {{ form_end(formDTO) }}#}
+    {{ form_end(formDTO) }}
 
     <section class="trip-list">
+
         <table>
+
             <thead>
                 <tr>
                     <th>Nom de la sortie</th>
@@ -49,7 +51,8 @@
                     {% if trip.shape.wording != 'En création' or trip.organizer == app.user %}
                         <tr>
 
-                            <td>{{ trip.name }}</td>
+                            <td><a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher détails">{{ trip.name }}</a></td>
+
                             <td>{{ trip.dateTimeStart|date('d-m-Y H:i') }}</td>
                             <td>{{ trip.registrationDeadline|date('d-m-Y H:i') }}</td>
                             <td class="centered-cell">{{ trip.participants|length }} / {{ trip.maxNumbRegistration }}</td>
@@ -100,7 +103,7 @@
 
                                         {% if trip.organizer == app.user %}
                                             <a href="#" title="Modifier">Modifier</a>
-                                            <a href="#" title="Publier">Publier</a>
+                                            <a href="{{ path('trip_publish', {'id': trip.id}) }}" title="Publier">Publier</a>
                                         {% endif %}
 
                                     {# ETAT DES INSCRIPTIONS DE LA SORTIE : OUVERTES ###############################}
@@ -126,7 +129,7 @@
                                         {% endif %}
 
                                         {% if trip.organizer == app.user %}
-                                            {# TODO #} <a href="#" title="Annuler">Annuler</a>
+                                            <a href="{{ path('trip_cancel', {'id': trip.id}) }}" title="Annuler">Annuler</a>
                                         {% endif %}
 
                                     {# ETAT DES INSCRIPTIONS DE LA SORTIE : CLOTUREES  #############################}
@@ -150,7 +153,7 @@
                                         {% endif %}
 
                                         {% if trip.organizer == app.user %}
-                                            {# TODO #}<a href="#" title="Annuler">Annuler</a>
+                                            <a href="{{ path('trip_cancel', {'id': trip.id}) }}" title="Annuler">Annuler</a>
                                         {% endif %}
 
                                     {# ETAT DES INSCRIPTIONS DE LA SORTIE : EN COURS  ##############################}

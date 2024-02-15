@@ -1,9 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Suppression de la Sortie{% endblock %}
+{% block title %}Annuler sortie | {{ parent() }}{% endblock %}
 
 {% block body %}
 
-    <h1>Vous avez supprimé la sortie</h1>
+    <h1>Annuler une sortie</h1>
+
+    <p>Nom de la sortie : {{ trip.name }}</p>
+    <p>Date de la sortie : {{ trip.dateTimeStart|date('l d F Y') }}</p>
+    <p>Campus : {{ trip.campus.name }}</p>
+    <p>Lieu : {{ trip.place.name}}, {{ trip.place.street}}, {{ trip.place.city.postalCode}} {{ trip.place.city.name}}</p>
+    <div>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="button user_btn">Enregistrer</button>
+        <a href="{{ path('trip_list') }}" title="Annuler"><button class="button user_btn">Annuler</button></a>
+        {{ form_end(form) }}
+    </div>
 
 {% endblock %}
