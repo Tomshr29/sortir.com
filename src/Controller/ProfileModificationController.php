@@ -122,4 +122,15 @@ class ProfileModificationController extends AbstractController
             'form_edit_password'=> $form->createView()
         ]);
     }
+
+    #[Route('/profil/other/{id}', name: 'other_profil')]
+    public function otherProfil(int $id,UserRepository $userRepository): Response
+    {
+        $user = $userRepository->find($id);
+
+        return $this->render('profile/otherProfile.html.twig', [
+            'user' => $user
+        ]);
+    }
+
 }

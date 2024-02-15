@@ -37,7 +37,8 @@
 
                     {% for user in users %}
                         <tr>
-                            <td>{{ user.username }}</td>
+                            <td><a href="{{ path('user_other_profil', {'id': user.id}) }}" title="Show participant details">{{ user.username }}</a></td>
+                            <td><a href="{{ path('user_other_profil', {'id': user.id}) }}" title="Show participant details">{{ user.firstname }} {{ user.lastname }}</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>

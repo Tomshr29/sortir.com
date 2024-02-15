@@ -41,11 +41,13 @@ class TripController extends AbstractController
     public function list(TripRepository $tripRepository, Request $request): Response
     {
         $user = $this->getUser();
+        $campusId = $user->getCampus();
 
         $searchData = new SearchData();
         $form = $this->createForm(SearchType::class, $searchData);
 
-        $trips = $tripRepository->findAll();
+        //$trips = $tripRepository->findAll();
+        $trips = $tripRepository->findBy(['campus' => $campusId]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -59,11 +61,8 @@ class TripController extends AbstractController
                 'currentDateTime' => $this->currentDateTime(), // Passer la date et l'heure actuelles à la vue Twig
             ]);
         }
-
-
         $tripDTO = new TripDTO;
         $formDTO =$this->createForm(DTOType::class, $tripDTO);
-
 
         $data = $request->request->all();
 
@@ -82,10 +81,7 @@ class TripController extends AbstractController
                 'formDTO' => $formDTO->createView(),
                 'data' => $data,
             ]);
-
         }
-
-
         return $this->render('trip/listTrip.html.twig', [
             'form' => $form->createView(),
             'trips' => $trips,

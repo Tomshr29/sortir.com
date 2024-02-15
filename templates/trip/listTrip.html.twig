@@ -107,7 +107,7 @@
                                 </td>
                                 <td>
                                     {% if trip.organizer %}
-                                        {{ trip.organizer.firstname }} {{ trip.organizer.lastname }}
+                                        <a href="{{ path('user_other_profil', {'id': trip.organizer.id}) }}" title="Show organizer details">{{ trip.organizer.firstname }} {{ trip.organizer.lastname }}</a>
                                     {% else %}
                                         Organisateur inconnu
                                     {% endif %}
@@ -122,7 +122,7 @@
 
                                             {% if isOrganizer %}
                                         {# TODO #}<a href="#" title="Modifier">Modifier</a>
-                                        {# TODO #}<a href="#" title="Publier">Publier</a>
+                                                <a href="{{ path('trip_publish', {'id': trip.id}) }}" title="Publier">Publier</a>
                                             {% endif %}
                                         {% endif %}
 
