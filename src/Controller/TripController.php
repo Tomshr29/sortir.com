@@ -38,7 +38,7 @@ class TripController extends AbstractController
     }
 
     #[Route('/list', name: 'list', methods: ['GET'])]
-    public function list(TripRepository $tripRepository, Request $request): Response
+    public function list(TripRepository $tripRepository, Request $request, ShapeRepository $shapeRepository, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
         $campusId = $user->getCampus();
@@ -48,6 +48,19 @@ class TripController extends AbstractController
 
         //$trips = $tripRepository->findAll();
         $trips = $tripRepository->findBy(['campus' => $campusId]);
+
+        //récupère l'état Cloturées
+        $shape = $shapeRepository->findOneBy(['id' => 3]);
+        foreach ($trips as $trip){
+            if ($trip->getDateTimeStart() >= $this->currentDateTime() )
+            {
+                dump($trip->getDateTimeStart() > $this->currentDateTime());
+                $trip->setShape($shape);
+                $entityManager->flush();
+            }
+        }
+
+
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -129,21 +142,6 @@ class TripController extends AbstractController
             'user' => $user,
         ]);
     }
-
-//    #[Route('/publier/{id}', name: 'publish')]
-//    public function publishedTrip(Trip $trip, ShapeRepository $shapeRepository, EntityManagerInterface $entityManager): Response
-//    {
-//        $shape = $shapeRepository->findOneBy(['id' => 2]);
-//
-//        $trip->setShape($shape);
-//
-//        $entityManager->persist($trip);
-//        $entityManager->flush();
-//
-//        return $this->render('trip/show.html.twig', [
-//            'trip' => $trip,
-//        ]);
-//    }
 
     #[Route('/publier/{id}', name: 'publish')]
     public function publishedTrip(Trip $trip, ShapeRepository $shapeRepository, EntityManagerInterface $entityManager): Response
