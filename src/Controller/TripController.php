@@ -53,14 +53,15 @@ class TripController extends AbstractController
         $trips = $tripRepository->findTripsByCampusAndAfterDate($campusId, $oneMonthAgo);
 
 
-        //récupère l'état Cloturées
+        //récupère l'état Cloturées(id 3)
         $shape = $shapeRepository->findOneBy(['id' => 3]);
         foreach ($trips as $trip){
 
             $formattedTripRegistrationDate = $trip->getRegistrationDeadline()->format('Y-m-d');
             $formattedCurrentDate = $this->currentDateTime()->format('Y-m-d');
 
-            if (!$trip->getShape() == ['id'=>2])
+            //test l'état Ouvertes (id 2)
+            if ($trip->getShape() !== ['id'=>2])
             {
                 //dd($trip->getShape());
                 if ($formattedTripRegistrationDate < $formattedCurrentDate )
@@ -147,6 +148,36 @@ class TripController extends AbstractController
         }
 
         return $this->render('trip/newTrip.html.twig', [
+            'form' => $form->createView(),
+            'user' => $user,
+        ]);
+    }
+
+
+    #[Route('/edit/{id}', name: 'edit')]
+    public function edit(int $id, Request $request, TripRepository $tripRepository, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+        $trip = $tripRepository->find($id);
+
+
+        $form = $this->createForm(TripType::class, $trip);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->addFlash(
+                'success',
+                'La sortie a bien été modifiée!'
+            );
+
+            $entityManager->persist($trip);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('trip_list');
+        }
+
+        return $this->render('trip/editTrip.html.twig', [
             'form' => $form->createView(),
             'user' => $user,
         ]);
