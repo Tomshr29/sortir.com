@@ -59,6 +59,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Trip::class, mappedBy: 'participant')]
     private Collection $trips;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageFileName = null;
+
     public function __construct()
     {
         $this->trip = new ArrayCollection();
@@ -255,5 +258,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getTrips(): Collection
     {
         return $this->trips;
+    }
+
+    public function getImageFileName(): ?string
+    {
+        return $this->imageFileName;
+    }
+
+    public function setImageFileName(?string $imageFileName): static
+    {
+        $this->imageFileName = $imageFileName;
+
+        return $this;
     }
 }
