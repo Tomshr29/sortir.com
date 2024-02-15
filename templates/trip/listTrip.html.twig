@@ -25,143 +25,207 @@
 
     {{ form_end(formDTO) }}
 
-
-
-    <h2>Liste des sorties</h2>
     <section class="trip-list">
+
         <table>
+
             <thead>
-            <tr>
-                <th>Nom de la sortie</th>
-                <th>Date de la sortie</th>
-                <th>Clôture</th>
-                <th>Inscrits/Places</th>
-                <th>Etat</th>
-                <th>Inscrit</th>
-                <th>Organisateur</th>
-                <th>Actions</th>
-            </tr>
+                <tr>
+                    <th>Nom de la sortie</th>
+                    <th>Date de la sortie</th>
+                    <th>Clôture</th>
+                    <th>Inscrits/Places</th>
+                    <th>État</th>
+                    <th>Inscrit</th>
+                    <th>Mon inscription</th>
+                    <th>Organisateur</th>
+                    <th>Actions</th>
+                </tr>
             </thead>
+
             <tbody>
 
-            {% for trip in trips %}
-                <tr>
-                    <td><a href="{{ path('trip_show', {'id': trip.id}) }}" title="Show details">{{ trip.name }}</a></td>
+                {% for trip in trips %}
 
-                    <td>{{ trip.dateTimeStart|date('d-m-Y H:i') }}</td>
-                    <td>{{ trip.registrationDeadline|date('d-m-Y H:i') }}</td>
-                    <td class="centered-cell">{{ trip.participants|length }} / {{ trip.maxNumbRegistration }}</td>
-                    <td>
-                        {% if trip.shape %}
-                            {{ trip.shape.wording }}
-                        {% else %}
-                            État inconnu
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if app.user %}
-                            {% if trip.participants|length >= trip.maxNumbRegistration %}
-                                <p class="trip-list" title="x">x</p>
-                            {% endif %}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if trip.organizer %}
-                            {{ trip.organizer.firstname }} {{ trip.organizer.lastname }}
-                        {% else %}
-                            Organisateur inconnu
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if app.user %}
+                    {# CACHE LE TABLEAU DE LA SORTIE EN CREATION POUR LES USERS SAUF POUR L'ORGANIZER #}
+                    {% if trip.shape.wording != 'En création' or trip.organizer == app.user %}
 
-                            <!-- ========================================================== -->
-                            {% if trip.shape %}
-                                {% if trip.shape.wording == 'Ouverte' %}
-                                    {% if app.user %}
-                                        {% set isRegistered = false %}
-                                        {% for participant in trip.participants %}
-                                            {% if participant.id == app.user.id %}
-                                                {% set isRegistered = true %}
-                                            {% endif %}
-                                        {% endfor %}
-                                        {% if isRegistered %}
-                                            <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
-                                            <a href="{{ path('trip_unsubscribe-trip', {'id': trip.id}) }}" title="Se désister">Se désister</a>
-                                        {% else %}
-                                            {% if trip.participants|length < trip.maxNumbRegistration %}
-                                                <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
-                                                <a href="{{ path('trip_trip-register', {'id': trip.id}) }}" title="S'inscrire">S'inscrire</a>
-                                            {% else %}
-                                                <!-- Ne rien afficher -->
-                                            {% endif %}
-                                        {% endif %}
-                                    {% endif %}
-                                    <!-- ========================================================== -->
-                                    <!-- ========================================================== -->
-                                {% elseif trip.shape.wording == 'En création' %}
-                                    <a href="#" title="Modifier">Modifier</a>
-                                    <a href="{{ path('trip_publish', {'id': trip.id}) }}" title="Publier">Publier</a>
-                                {% else %}
-                                    <!-- Ne rien afficher -->
-                                {% endif %}
-                            {% else %}
-                                <!-- État inconnu -->
-                            {% endif %}
-                            <!-- ========================================================== -->
-                            <!-- ========================================================== -->
-                            {% if trip.shape %}
-                                {% if trip.shape.wording == 'En cours' %}
-                                <td><a href="{{ path('trip_show', {'id': trip.id}) }}">{{ trip.name }}</a></td>
-                                {% else %}
-                                    <!-- Ne rien afficher -->
-                                {% endif %}
-                            {% else %}
-                                <!-- État inconnu -->
-                            {% endif %}
-                            <!-- ========================================================== -->
-                            <!-- ========================================================== -->
-                            {% if trip.shape %}
-                                {% if trip.shape.wording == 'Clôturée' %}
-                                    {% if app.user %}
-                                        {% set isRegistered = false %}
-                                        {% for participant in trip.participants %}
-                                            {% if participant.id == app.user.id %}
-                                                {% set isRegistered = true %}
-                                            {% endif %}
-                                        {% endfor %}
+                        {% for trip in trips %}
 
-                                        {% if isRegistered %}
-                                            {% if trip.dateTimeStart >= currentDateTime %}
-                                                <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
-                                                <a href="{{ path('trip_list', {'id': trip.id}) }}" title="Se désister">Se désister</a>
-                                            {% elseif trip.dateTimeStart < currentDateTime %}
-                                                <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
-                                            {% endif %}
-                                        {% else %}
-                                            <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
-                                        {% endif %}
+                            <tr>
+                                <td>{{ trip.name }}</td>
+                                <td>{{ trip.dateTimeStart|date('d-m-Y H:i') }}</td>
+                                <td>{{ trip.registrationDeadline|date('d-m-Y H:i') }}</td>
+                                <td class="centered-cell">{{ trip.participants|length }} / {{ trip.maxNumbRegistration }}</td>
+                                <td>
+                                    {% if trip.shape %}
+                                        {{ trip.shape.wording }}
                                     {% else %}
-                                        <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+                                        État inconnu
                                     {% endif %}
-                                {% else %}
-                                    <!-- Ne rien afficher -->
-                                {% endif %}
-                            {% else %}
-                                <!-- État inconnu -->
-                            {% endif %}
-                            <!-- ========================================================== -->
+                                </td>
+                                <td>
+                                    {% if app.user %}
+                                        {% if trip.participants|length >= trip.maxNumbRegistration %}
+                                            <p class="trip-list" title="x">x</p>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {# Vérifie si l'utilisateur est inscrit à une sortie #}
+                                    {% set isParticipant = app.user.trips is not empty %}
 
-                        {% endif %}
-                </tr>
-            {% endfor %}
+                                    {# Attribue dynamiquement le rôle en fonction du statut de participation #}
+                                    {% if isParticipant %}
+                                        {% set participant = true %}
+                                        {% set campusNetUser = false %}
+                                    {% else %}
+                                        {% set participant = false %}
+                                        {% set campusNetUser = true %}
+                                    {% endif %}
+
+                                    {# Utilise les variables "participant" et "campusNetUser" pour informer du Rôle #}
+                                    {% if participant %}
+                                        <p>Je suis participant</p>
+                                    {% else %}
+                                        <p>Je ne suis pas participant</p>
+                                    {% endif %}
+
+                                    {% if app.user %}
+                                        {# Vérifie si l'utilisateur est l'organisateur de la sortie #}
+                                        {% set isOrganizer = trip.organizer == app.user %}
+                                        {# Vérifie si l'organisateur est également inscrit à une sortie #}
+                                        {% set isParticipant = app.user.trips.contains(trip) %}
+                                        {% if isOrganizer %}
+                                            {% if isParticipant %}
+                                                <p>Je suis l'organisateur et je suis inscrit à cette sortie</p>
+                                            {% else %}
+                                                <p>Je suis l'organisateur mais je ne suis pas inscrit à cette sortie</p>
+                                            {% endif %}
+                                        {% else %}
+                                            <p>Je ne suis pas l'organisateur</p>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if trip.organizer %}
+                                        {{ trip.organizer.firstname }} {{ trip.organizer.lastname }}
+                                    {% else %}
+                                        Organisateur inconnu
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% block profile %}
+
+                                        {# ETAT DE LA SORTIE : EN CREATION #############################################}
+                                        {% if trip.shape.wording == 'En création' %}
+                                            {% set isOrganizer = trip.organizer == app.user %}
+                                            {% set isParticipant = app.user.trips is not empty %}
+
+                                            {% if isOrganizer %}
+                                        {# TODO #}<a href="#" title="Modifier">Modifier</a>
+                                        {# TODO #}<a href="#" title="Publier">Publier</a>
+                                            {% endif %}
+                                        {% endif %}
+
+                                        {# ETAT DES INSCRIPTIONS DE LA SORTIE : OUVERTES ###############################}
+                                        {% if trip.shape.wording == 'Ouvertes' %}
+
+                                            {% if campusNetUser and not isOrganizer %}
+                                                <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+                                                {# Vérifie si le nombre maximum d'inscrits est atteint #}
+                                                {% if trip.participants|length < trip.maxNumbRegistration %}
+                                                    <a href="{{ path('trip_trip-register', {'id': trip.id}) }}" title="S'inscrire">S'inscrire</a>
+                                                {% endif %}
+                                            {% elseif participant and not isOrganizer %}
+                                                <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+                                                <a href="{{ path('trip_unsubscribe-trip', {'id': trip.id}) }}" title="Se désister">Se désister</a>
+                                            {% endif %}
+
+                                            {% if isOrganizer %}
+                                                {% if not isParticipant %}
+                                                    <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+                                                    {# TODO #}<a href="{{ path('trip_list', {'id': trip.id}) }}" title="Annuler">Annuler</a>
+                                                    {# Ne pas afficher le lien d'inscription pour l'organisateur #}
+                                                {% endif %}
+
+                                                {% if isParticipant %}
+                                                    <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+                                                    {# TODO #}<a href="{{ path('trip_list', {'id': trip.id}) }}" title="Annuler">Annuler</a>
+                                                    <a href="{{ path('trip_unsubscribe-trip', {'id': trip.id}) }}" title="Se désister">Se désister</a>
+                                                {% endif %}
+                                            {% endif %}
+
+                                        {% endif %}
+
+
+                                        {# ETAT DES INSCRIPTIONS DE LA SORTIE : CLOTUREES  #############################}
+                                        {% if trip.shape.wording == 'Clôturées' %}
+
+                                            {% if campusNetUser and not isOrganizer %}
+                                                <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+
+                                            {% elseif participant and not isOrganizer %}
+                                                <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+                                                <a href="{{ path('trip_unsubscribe-trip', {'id': trip.id}) }}" title="Se désister">Se désister</a>
+                                            {% endif %}
+
+                                            {% if isOrganizer %}
+
+                                                {% if not isParticipant %}
+                                                    <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+                                        {# TODO #}<a href="{{ path('trip_list', {'id': trip.id}) }}" title="Annuler">Annuler</a>
+                                                {% endif %}
+
+                                                {% if isParticipant %}
+                                                    <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+                                        {# TODO #}<a href="{{ path('trip_list', {'id': trip.id}) }}" title="Annuler">Annuler</a>
+                                                    <a href="{{ path('trip_unsubscribe-trip', {'id': trip.id}) }}" title="Se désister">Se désister</a>
+                                                {% endif %}
+
+                                            {% endif %}
+
+                                        {% endif %}
+
+                                        {# ETAT DES INSCRIPTIONS DE LA SORTIE : EN COURS  ##############################}
+                                        {% if trip.shape.wording == 'En cours' %}
+
+                                            {% if campusNetUser and not isOrganizer %}
+                                                <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+
+                                            {% elseif participant and not isOrganizer %}
+                                                <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+                                            {% endif %}
+
+                                            {% if isOrganizer %}
+
+                                                {% if not isParticipant %}
+                                                    <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+                                                {% endif %}
+
+                                                {% if isParticipant %}
+                                                    <a href="{{ path('trip_show', {'id': trip.id}) }}" title="Afficher">Afficher</a>
+                                                {% endif %}
+
+                                            {% endif %}
+
+                                        {% endif %}
+
+                                    {% endblock %}
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    {% endif %}
+
+                {% endfor %}
+
             </tbody>
+
         </table>
+
     </section>
 
-
-
-
-
-    <a href="{{ path('trip_newTrip') }}" title="New Trip"><button>Créer une sortie</button></a>
 {% endblock %}

@@ -8,6 +8,7 @@ use App\Repository\CityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -112,6 +113,12 @@ class CityController extends AbstractController
         return $this->redirectToRoute('city_list');
     }
 
+    #[Route('/remove-trip/{id}', name: 'remove-trip')]
+    public function removeTrip(int $id, EntityManagerInterface $entityManager): RedirectResponse
+    {
+        $this->addFlash('success', 'Vous avez bien supprimé la sortie avec succès.');
+        return $this->redirectToRoute('trip_list'); // Redirige vers la liste des sorties
+    }
 /*
 #[Route('/testhydratecity', name: 'testhydratecity')]
 public function testhydratecity(EntityManagerInterface $entityManager): Response
