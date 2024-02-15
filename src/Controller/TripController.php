@@ -49,18 +49,19 @@ class TripController extends AbstractController
         //$trips = $tripRepository->findAll();
         $trips = $tripRepository->findBy(['campus' => $campusId]);
 
-//        //récupère l'état Cloturées
-//        $shape = $shapeRepository->findOneBy(['id' => 3]);
-//        foreach ($trips as $trip){
-//            if ($trip->getDateTimeStart() >= $this->currentDateTime() )
-//            {
-//                dump($trip->getDateTimeStart() > $this->currentDateTime());
-//                $trip->setShape($shape);
-//                $entityManager->flush();
-//            }
-//        }
+        //récupère l'état Cloturées
+        $shape = $shapeRepository->findOneBy(['id' => 3]);
+        foreach ($trips as $trip){
 
+            $formattedTripRegistrationDate = $trip->getRegistrationDeadline()->format('Y-m-d');
+            $formattedCurrentDate = $this->currentDateTime()->format('Y-m-d');
 
+            if ($formattedTripRegistrationDate < $formattedCurrentDate )
+            {
+                $trip->setShape($shape);
+                $entityManager->flush();
+            }
+        }
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
