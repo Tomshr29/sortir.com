@@ -96,17 +96,6 @@ class RegistrationFormType extends AbstractType
                 ]
             ])
 
-            /*->add('campus', ChoiceType::class, [
-                'choices' => [
-                    'Nantes' => 'Nantes',
-                    'Rennes' => 'Rennes',
-                    'Quimper' => 'Quimper',
-                    'Niort' => 'Niort'
-                ],
-                'multiple' => false
-            ])*/
-
-
             ->add('Password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => [

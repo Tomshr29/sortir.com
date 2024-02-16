@@ -49,7 +49,7 @@ class TripDTO
     /**
      * @return mixed
      */
-    public function getDateTimeStart()
+    public function getDateTimeStart(): mixed
     {
         return $this->dateTimeStart;
     }

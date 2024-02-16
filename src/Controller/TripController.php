@@ -84,7 +84,7 @@ class TripController extends AbstractController
                 'currentDateTime' => $this->currentDateTime(), // Passer la date et l'heure actuelles à la vue Twig
             ]);
         }
-        $tripDTO = new TripDTO;
+        $tripDTO = new TripDTO();
         $formDTO =$this->createForm(DTOType::class, $tripDTO);
 
         $data = $request->request->all();
@@ -92,16 +92,25 @@ class TripController extends AbstractController
         $formDTO->handleRequest($request);
         if($formDTO->isSubmitted() && $formDTO->isValid()){
 
-            $now = new \DateTime();
-            $data = $tripRepository->getByDate($now);
+//            $now = new \DateTime();
+            $dateStart = $tripDTO->getDateTimeStart();
+            $dateEnd = $tripDTO->getDateTimeEnd();
+            $data = $tripRepository->getByDate($dateStart, $dateEnd);
 
-            $tripDTO->setOrganizer($data['getOrganizer']);
-            $tripDTO->setSubscribe($data['getSubscribe']);
-            $tripDTO->setUnsubscribe($data['getUnsubscribe']);
-            $tripDTO->setLastTrip($data['getLastTrip']);
+            if (isset($data['organizer'])) {
+                $tripDTO->setOrganizer($data['organizer']);
+            }
+
+//           $tripDTO->setOrganizer($data['organizer']);
+//           $tripDTO->setSubscribe($data['subscribe']);
+//           $tripDTO->setUnsubscribe($data['getUnsubscribe']);
+//           $tripDTO->setLastTrip($data['getLastTrip']);
 
             return $this->render('trip/listTrip.html.twig', [
+                'form' => $form->createView(),
                 'formDTO' => $formDTO->createView(),
+                'trips' => $trips,
+                'user' => $user,
                 'data' => $data,
             ]);
         }
@@ -111,7 +120,7 @@ class TripController extends AbstractController
             'currentDateTime' => $this->currentDateTime(), // Passer la date et l'heure actuelles à la vue Twig
             'user' => $user,
             'formDTO' => $formDTO->createView(),
-            'data' => $data
+            'data' => $data,
         ]);
     }
 

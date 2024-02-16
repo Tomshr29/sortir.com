@@ -17,34 +17,34 @@ class DTOType extends AbstractType
     {
 
         $builder
-            ->add('getDateTimeStart', DateTimeType::class, [
+            ->add('dateTimeStart', DateTimeType::class, [
                 'label' => 'Entre',
                 'required' => false,
             ])
 
-            ->add('getDateTimeEnd', DateTimeType::class, [
+            ->add('dateTimeEnd', DateTimeType::class, [
                 'label' => 'Et',
                 'required' => false,
             ])
 
-            ->add('getOrganizer', CheckboxType::class, [
+            ->add('organizer', CheckboxType::class, [
                 'label' => 'Sorties dont je suis l\'organisateur/trice',
-                'required' => false
+                'required' => false,
             ])
 
-            ->add('getSubscribe', CheckboxType::class, [
+            ->add('subscribe', CheckboxType::class, [
                 'label' => 'Sorties auxquelles je suis inscrit/e',
-                'required' => false
+                'required' => false,
             ])
 
-            ->add('getUnsubscribe', CheckboxType::class, [
+            ->add('unsubscribe', CheckboxType::class, [
                 'label' => 'Sorties auxquelles je ne suis pas inscrit/e',
-                'required' => false
+                'required' => false,
             ])
 
-            ->add('getLastTrip', CheckboxType::class, [
+            ->add('lastTrip', CheckboxType::class, [
                 'label' => 'Sorties passées',
-                'required' => false
+                'required' => false,
             ]);
 
     }

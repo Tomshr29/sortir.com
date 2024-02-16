@@ -41,8 +41,7 @@ class ProfileModificationController extends AbstractController
         ]);
     }
     #[Route('/profil/edit/{id}', name: 'edit')]
-    public function edit(int $id,User $user, UserRepository $userRepository,
-                            Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function edit(int $id,User $user, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         if (!$this->getUser()){
             return $this->redirectToRoute('app_login');

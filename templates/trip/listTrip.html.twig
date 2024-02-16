@@ -6,7 +6,7 @@
     <h1>Liste des sorties</h1>
 
     <p>Filtrer les sorties</p>
-    <a href="{{ path('trip_newTrip') }}" title="Ajouter une sortie"><button class="button user_btn">Ajouter une sortie</button></a>
+
     <p>Campus : {{ user.campus.name }}</p>
     <p>Le nom de la sortie contient : {% include "searchData.html.twig"%}</p>
 
@@ -14,12 +14,12 @@
 
     {{ form_start(formDTO) }}
 
-    {{ form_row(formDTO.getDateTimeStart) }}
-    {{ form_row(formDTO.getDateTimeEnd) }}
-    {{ form_row(formDTO.getOrganizer) }}
-    {{ form_row(formDTO.getSubscribe) }}
-    {{ form_row(formDTO.getUnsubscribe) }}
-    {{ form_row(formDTO.getLastTrip) }}
+    {{ form_row(formDTO.dateTimeStart) }}
+    {{ form_row(formDTO.dateTimeEnd) }}
+    {{ form_row(formDTO.organizer) }}
+    {{ form_row(formDTO.subscribe) }}
+    {{ form_row(formDTO.unsubscribe) }}
+    {{ form_row(formDTO.lastTrip) }}
 
         <button type="submit">Rechercher</button>
 
@@ -102,7 +102,7 @@
                                     {% if trip.shape.wording == 'En création' %}
 
                                         {% if trip.organizer == app.user %}
-                                            <a href="#" title="Modifier">Modifier</a>
+                                            <a href="{{ path('trip_edit', {'id': trip.id}) }}" title="Modifier">Modifier</a>
                                             <a href="{{ path('trip_publish', {'id': trip.id}) }}" title="Publier">Publier</a>
                                         {% endif %}
 
@@ -178,5 +178,5 @@
         </table>
 
     </section>
-
+    <a href="{{ path('trip_newTrip') }}" title="Ajouter une sortie"><button class="button user_btn">Ajouter une sortie</button></a>
 {% endblock %}

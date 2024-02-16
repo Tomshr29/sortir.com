@@ -2,21 +2,21 @@
 
 
 {% block title %}
-Nouvelle sortie | {{ parent() }}
+Edition sortie | {{ parent() }}
 {% endblock %}
 
 
 {% block body %}
-    <h1>Créer une sortie</h1>
+    <h1>Modification d'une sortie</h1>
 
     <div class="newTrip">
         campus : {{ user.campus.name }}
 
         <div class="formNewTrip">
             {{ form_start(form) }}
-
             {{ form_widget(form) }}
-                <button type="submit" >Créer</button>
+                <button type="submit" >Modifier</button>
+                <a href="{{ path('trip_list') }}" title="Annuler"><button class="">Annuler</button></a>
             {{ form_end(form) }}
         </div>
     </div>

@@ -7,18 +7,18 @@
 {% block body %}
     <h1>{{ trip.name }}</h1>
 
-    <p>Campus : {{ trip.campus.name }}</p>
-    <p>Date et heure de la sortie : {{ trip.dateTimeStart|date('l d F Y à H:i') }}</p>
-    <p>Date limite d'inscription : {{ trip.registrationDeadline|date('l d F Y') }}</p>
-    <p>Nombre de places : {{ trip.maxNumbRegistration }}</p>
-    <p>Durée: {{ trip.duration|date('H:i') }}</p>
-    <p>Description: {{ trip.tripInfo }}</p>
-    <p>Lieu : {{ trip.place.name}} </p>
-    <p>Rue : {{ trip.place.street}}</p>
-    <p>Code postal : {{ trip.place.city.postalCode}}</p>
-    <p>Ville : {{ trip.place.city.name}}</p>
-    <p>Latitude : {{ trip.place.latitude}}</p>
-    <p>Longitude : {{ trip.place.longitude}}</p>
+    <p>Campus :  {{ trip.campus.name }}</p>
+    <p>Date et heure de la sortie :  {{ trip.dateTimeStart|date('l d F Y à H:i') }}</p>
+    <p>Date limite d'inscription :  {{ trip.registrationDeadline|date('l d F Y') }}</p>
+    <p>Nombre de places :  {{ trip.maxNumbRegistration }}</p>
+    <p>Durée :  {{ trip.duration|date('H:i') }}</p>
+    <p>Description :  {{ trip.tripInfo }}</p>
+    <p>Lieu :  {{ trip.place.name}} </p>
+    <p>Rue :  {{ trip.place.street}}</p>
+    <p>Code postal :  {{ trip.place.city.postalCode}}</p>
+    <p>Ville :  {{ trip.place.city.name}}</p>
+    <p>Latitude :  {{ trip.place.latitude}}</p>
+    <p>Longitude :  {{ trip.place.longitude}}</p>
 
     <div class="trip-participants">
         <h3>Liste des participants inscrits</h3>

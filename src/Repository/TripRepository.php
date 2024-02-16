@@ -35,7 +35,6 @@ class TripRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-
 //    /**
 //     * @return Trip[] Returns an array of Trip objects
 //     */
@@ -86,16 +85,16 @@ class TripRepository extends ServiceEntityRepository
     /**
      * @throws \Exception
      */
-    public function getByDate(\DateTime $date){
+    public function getByDate(DateTime $dateStart, DateTime $dateEnd){
 
-        $from = new \DateTime($date->format("d-m-Y")." 00:00:00");
-        $to = new \DateTime($date->format("d-m-Y"." 23:59:59"));
+       // $from = new \DateTime($date->format("d-m-Y")." 00:00:00");
+       // $to = new \DateTime($date->format("d-m-Y"." 23:59:59"));
 
         $queryBuilder = $this->createQueryBuilder("e");
         $queryBuilder
-            ->andWhere('e.date BETWEEN :from AND :to')
-            ->setParameter('from', $from)
-            ->setParameter('to', $to);
+            ->andWhere('e.dateTimeStart BETWEEN :from AND :to')
+            ->setParameter('from', $dateStart)
+            ->setParameter('to', $dateEnd);
 
         $result = $queryBuilder->getQuery()->getResult();
 
